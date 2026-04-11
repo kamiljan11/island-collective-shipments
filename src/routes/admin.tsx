@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Outlet, Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -20,56 +20,92 @@ export const Route = createFileRoute("/admin")({
 
 function AdminLayout() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isLoginRoute = location.pathname === "/admin/login";
   const [user, setUser] = useState<any>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [checking, setChecking] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
+    if (isLoginRoute) {
+      return;
+    }
+
+    let isMounted = true;
+
     const checkAuth = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
 
-      if (!session) {
-        navigate({ to: "/admin/login" });
-        return;
+        if (!session) {
+          if (isMounted) {
+            setChecking(false);
+            void navigate({ to: "/admin/login" });
+          }
+          return;
+        }
+
+        if (!isMounted) return;
+        setUser(session.user);
+
+        const { data: hasAdmin, error } = await supabase.rpc("has_role", {
+          _user_id: session.user.id,
+          _role: "admin",
+        });
+
+        if (error || !hasAdmin) {
+          await supabase.auth.signOut();
+
+          if (isMounted) {
+            setIsAdmin(false);
+            setChecking(false);
+            void navigate({ to: "/admin/login" });
+          }
+          return;
+        }
+
+        if (isMounted) {
+          setIsAdmin(true);
+          setChecking(false);
+        }
+      } catch {
+        if (isMounted) {
+          setIsAdmin(false);
+          setChecking(false);
+          void navigate({ to: "/admin/login" });
+        }
       }
-
-      setUser(session.user);
-
-      const { data: hasAdmin } = await supabase.rpc("has_role", {
-        _user_id: session.user.id,
-        _role: "admin",
-      });
-
-      if (!hasAdmin) {
-        await supabase.auth.signOut();
-        navigate({ to: "/admin/login" });
-        return;
-      }
-
-      setIsAdmin(true);
-      setChecking(false);
     };
 
-    checkAuth();
+    void checkAuth();
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session) {
-        navigate({ to: "/admin/login" });
+      if (!session && isMounted) {
+        setIsAdmin(false);
+        setChecking(false);
+        void navigate({ to: "/admin/login" });
       }
     });
 
-    return () => subscription.unsubscribe();
-  }, [navigate]);
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
+  }, [isLoginRoute, navigate]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate({ to: "/admin/login" });
   };
+
+  if (isLoginRoute) {
+    return <Outlet />;
+  }
 
   if (checking) {
     return (

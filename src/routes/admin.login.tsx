@@ -22,38 +22,44 @@ function AdminLoginPage() {
     setLoading(true);
     setError("");
 
-    const { error: authError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (authError) {
-      setError("Invalid credentials");
+      if (authError) {
+        setError("Invalid credentials");
+        return;
+      }
+
+      const user = data.user;
+
+      if (!user) {
+        setError("Authentication failed");
+        return;
+      }
+
+      const { data: hasAdmin, error: roleError } = await supabase.rpc("has_role", {
+        _user_id: user.id,
+        _role: "admin",
+      });
+
+      if (roleError) {
+        setError("Could not verify admin access");
+        return;
+      }
+
+      if (!hasAdmin) {
+        await supabase.auth.signOut();
+        setError("Access denied. Admin role required.");
+        return;
+      }
+
+      await navigate({ to: "/admin" });
+    } finally {
       setLoading(false);
-      return;
     }
-
-    // Check admin role using security definer function (bypasses RLS)
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      setError("Authentication failed");
-      setLoading(false);
-      return;
-    }
-
-    const { data: hasAdmin } = await supabase.rpc("has_role", {
-      _user_id: user.id,
-      _role: "admin",
-    });
-
-    if (!hasAdmin) {
-      await supabase.auth.signOut();
-      setError("Access denied. Admin role required.");
-      setLoading(false);
-      return;
-    }
-
-    window.location.href = "/admin";
   };
 
   return (
