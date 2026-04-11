@@ -4,7 +4,7 @@ import { Link } from "@tanstack/react-router";
 export function HeroSection() {
   return (
     <section className="relative min-h-[70vh] flex items-center pt-32 pb-12 px-6 lg:px-8 overflow-hidden">
-      <div className="absolute inset-0 opacity-[0.03]" style={{
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{
         backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
         backgroundSize: '40px 40px'
       }} />
