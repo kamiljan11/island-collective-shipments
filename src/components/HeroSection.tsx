@@ -9,7 +9,7 @@ const manifestItems = [
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-[calc(100vh-6rem)] flex items-center pt-24 pb-16 px-6 lg:px-8 overflow-hidden">
+    <section className="relative min-h-screen flex items-center pt-32 pb-12 px-6 lg:px-8 overflow-hidden">
       {/* Background grid pattern */}
       <div className="absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
