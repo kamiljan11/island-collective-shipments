@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as GroupOrdersRouteImport } from './routes/group-orders'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GroupOrdersCampaignIdRouteImport } from './routes/group-orders.$campaignId'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
 
 const GroupOrdersRoute = GroupOrdersRouteImport.update({
   id: '/group-orders',
@@ -28,34 +29,52 @@ const GroupOrdersCampaignIdRoute = GroupOrdersCampaignIdRouteImport.update({
   path: '/$campaignId',
   getParentRoute: () => GroupOrdersRoute,
 } as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/group-orders': typeof GroupOrdersRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
   '/group-orders/$campaignId': typeof GroupOrdersCampaignIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/group-orders': typeof GroupOrdersRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
   '/group-orders/$campaignId': typeof GroupOrdersCampaignIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/group-orders': typeof GroupOrdersRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
   '/group-orders/$campaignId': typeof GroupOrdersCampaignIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/group-orders' | '/group-orders/$campaignId'
+  fullPaths:
+    | '/'
+    | '/group-orders'
+    | '/admin/login'
+    | '/group-orders/$campaignId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/group-orders' | '/group-orders/$campaignId'
-  id: '__root__' | '/' | '/group-orders' | '/group-orders/$campaignId'
+  to: '/' | '/group-orders' | '/admin/login' | '/group-orders/$campaignId'
+  id:
+    | '__root__'
+    | '/'
+    | '/group-orders'
+    | '/admin/login'
+    | '/group-orders/$campaignId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GroupOrdersRoute: typeof GroupOrdersRouteWithChildren
+  AdminLoginRoute: typeof AdminLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -81,6 +100,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GroupOrdersCampaignIdRouteImport
       parentRoute: typeof GroupOrdersRoute
     }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -99,6 +125,7 @@ const GroupOrdersRouteWithChildren = GroupOrdersRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GroupOrdersRoute: GroupOrdersRouteWithChildren,
+  AdminLoginRoute: AdminLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
