@@ -130,6 +130,68 @@ export type Database = {
           },
         ]
       }
+      product_idea_votes: {
+        Row: {
+          created_at: string
+          id: string
+          idea_id: string
+          voter_hash: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          idea_id: string
+          voter_hash: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          idea_id?: string
+          voter_hash?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_idea_votes_idea_id_fkey"
+            columns: ["idea_id"]
+            isOneToOne: false
+            referencedRelation: "product_ideas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_ideas: {
+        Row: {
+          created_at: string
+          description: string | null
+          email: string | null
+          id: string
+          status: string
+          title: string
+          updated_at: string
+          votes: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          email?: string | null
+          id?: string
+          status?: string
+          title: string
+          updated_at?: string
+          votes?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          email?: string | null
+          id?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          votes?: number
+        }
+        Relationships: []
+      }
       quote_requests: {
         Row: {
           company_name: string
@@ -209,6 +271,7 @@ export type Database = {
         Args: { amount?: number; campaign_id: string }
         Returns: undefined
       }
+      increment_idea_votes: { Args: { idea_id: string }; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
