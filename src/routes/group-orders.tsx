@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, Clock, ArrowRight, Shield, CreditCard, RotateCcw } from "lucide-react";
+import { Users, Clock, ArrowRight, Shield, CreditCard, RotateCcw, Link2 } from "lucide-react";
 import winterTiresImg from "@/assets/winter-tires-container.jpg";
 
 type Campaign = {
@@ -117,9 +117,9 @@ function GroupOrdersPage() {
             <p className="text-muted-foreground mb-6">
               We're planning our next group order. Check back soon or contact us to suggest products!
             </p>
-            <a href="/#quote" className="bg-primary text-primary-foreground px-6 py-3 rounded-md font-semibold inline-flex items-center gap-2 hover:bg-primary/90">
-              Request a Quote <ArrowRight size={18} />
-            </a>
+            <Link to="/import" className="bg-primary text-primary-foreground px-6 py-3 rounded-md font-semibold inline-flex items-center gap-2 hover:bg-primary/90">
+              Use Our Import Service <ArrowRight size={18} />
+            </Link>
           </motion.div>
         ) : (
           <div className="space-y-6">
@@ -155,6 +155,29 @@ function GroupOrdersPage() {
               </div>
             ))}
           </div>
+        </motion.div>
+
+        {/* Cross-sell to import service */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-20 bg-secondary/50 border border-border rounded-xl p-8 sm:p-12 text-center"
+        >
+          <Link2 size={32} className="mx-auto mb-4 text-primary" />
+          <h2 className="text-2xl font-black tracking-tight mb-2">
+            NEED SOMETHING SPECIFIC?
+          </h2>
+          <p className="text-muted-foreground text-sm max-w-lg mx-auto mb-6">
+            Can't find what you need in our bulk deals? Send us a link from any European store — 
+            we'll buy it, ship it, and deliver it to you.
+          </p>
+          <Link
+            to="/import"
+            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-md font-bold text-sm tracking-wider hover:bg-primary/90 transition-colors"
+          >
+            USE IMPORT SERVICE <ArrowRight size={16} />
+          </Link>
         </motion.div>
       </div>
     </div>
