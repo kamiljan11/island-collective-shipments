@@ -28,7 +28,7 @@ const steps = [
 const faqs = [
   { q: "What stores can you buy from?", a: "Any European store — online or physical. Amazon.de, Zalando, specialist retailers, industrial suppliers, you name it. If they sell it in Europe, we can get it." },
   { q: "How much does it cost?", a: "Every quote is tailored: product price + shipping + a transparent service fee. You see the full price before we buy anything. No hidden charges, ever." },
-  { q: "How long does delivery take?", a: "Container shipping takes 14–30 working days depending on the route. Need it faster? We offer air freight in 3–5 days for urgent orders." },
+  { q: "How long does delivery take?", a: "Container shipping takes 14–30 working days depending on the route. Need it faster? We offer air freight in 5–7 working days for urgent orders." },
   { q: "Do I get a VAT invoice?", a: "Yes. You receive a valid Icelandic VAT invoice from Mountain All Service ehf. Makes bookkeeping and VAT reclamation simple." },
   { q: "What if the store doesn't ship to Iceland?", a: "That's exactly why we exist. We buy using our European address and handle all forwarding, customs, and delivery to your door." },
 ];
@@ -268,7 +268,7 @@ function ImportForm() {
               className={`px-4 py-3 rounded-lg text-sm transition-colors border ${priority === "urgent" ? "border-primary/40 bg-card" : "border-border/60 text-muted-foreground"}`}
             >
               <span className="font-medium block text-primary">Air freight</span>
-              <span className="text-xs text-muted-foreground">3–5 days</span>
+              <span className="text-xs text-muted-foreground">5–7 working days</span>
             </button>
           </div>
         </div>
