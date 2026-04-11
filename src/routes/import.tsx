@@ -260,7 +260,7 @@ function ImportForm() {
               className={`px-4 py-3 rounded-lg text-sm transition-colors border ${priority === "standard" ? "border-foreground/30 bg-card" : "border-border/60 text-muted-foreground"}`}
             >
               <span className="font-medium block">Container</span>
-              <span className="text-xs text-muted-foreground">14–30 working days</span>
+              <span className="text-xs text-muted-foreground">14–30 working days · Cheaper</span>
             </button>
             <button
               type="button"
@@ -268,7 +268,7 @@ function ImportForm() {
               className={`px-4 py-3 rounded-lg text-sm transition-colors border ${priority === "urgent" ? "border-primary/40 bg-card" : "border-border/60 text-muted-foreground"}`}
             >
               <span className="font-medium block text-primary">Air freight</span>
-              <span className="text-xs text-muted-foreground">5–7 working days</span>
+              <span className="text-xs text-muted-foreground">5–7 working days · Premium</span>
             </button>
           </div>
         </div>
