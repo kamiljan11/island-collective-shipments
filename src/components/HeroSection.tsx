@@ -32,15 +32,10 @@ export function HeroSection() {
           </h1>
 
           <p className="text-base lg:text-lg text-muted-foreground max-w-lg mb-8 leading-relaxed">
-            Need anything from Europe?{" "}
-            <span className="text-foreground font-semibold">
-              We source, buy, and deliver.
-            </span>{" "}
-            We handle everything — purchasing, customs clearance, and shipping to your door. Delivered with a valid{" "}
-            <span className="text-foreground font-semibold">
-              Icelandic VAT Invoice
-            </span>
-            .
+            <span className="text-foreground font-semibold">Sourcing & shipping</span> for any product, or{" "}
+            <span className="text-foreground font-semibold">group orders</span> for bulk deals.
+            We handle purchasing, customs clearance, and delivery — with a valid{" "}
+            <span className="text-foreground font-semibold">Icelandic VAT Invoice</span>.
           </p>
 
           <div className="flex flex-wrap gap-3">
@@ -48,13 +43,19 @@ export function HeroSection() {
               href="#quote"
               className="border-2 border-foreground text-foreground px-6 py-3 rounded-md font-semibold text-sm tracking-wider uppercase flex items-center gap-2 hover:bg-foreground hover:text-background transition-colors"
             >
-              START PURCHASING <ArrowRight size={16} />
+              REQUEST A QUOTE <ArrowRight size={16} />
             </a>
             <a
-              href="#process"
+              href="#group-orders"
+              className="border-2 border-primary text-primary px-6 py-3 rounded-md font-semibold text-sm tracking-wider uppercase hover:bg-primary hover:text-primary-foreground transition-colors"
+            >
+              GROUP ORDERS
+            </a>
+            <a
+              href="#services"
               className="border-2 border-border text-muted-foreground px-6 py-3 rounded-md font-semibold text-sm tracking-wider uppercase hover:border-foreground hover:text-foreground transition-colors"
             >
-              HOW IT WORKS
+              OUR SERVICES
             </a>
           </div>
         </div>

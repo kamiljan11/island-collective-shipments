@@ -3,12 +3,11 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const navItems = [
+  { label: "SERVICES", href: "/#services" },
   { label: "SOLUTION", href: "/#solution" },
   { label: "INDUSTRIES", href: "/#industries" },
-  { label: "CONSOLIDATION", href: "/#consolidation" },
-  { label: "PROCESS", href: "/#process" },
+  { label: "GROUP ORDERS", href: "/group-orders", isRoute: true },
   { label: "FAQ", href: "/#faq" },
-  { label: "GROUP ORDERS", href: "/group-orders" },
 ];
 
 export function Header() {
@@ -41,7 +40,7 @@ export function Header() {
           {/* Desktop */}
           <div className="hidden lg:flex items-center gap-7">
             {navItems.map((item) =>
-              item.href.startsWith("/group") ? (
+              item.isRoute ? (
                 <Link
                   key={item.label}
                   to="/group-orders"
@@ -80,7 +79,7 @@ export function Header() {
         {mobileOpen && (
           <div className="lg:hidden bg-background border-b border-border px-6 pb-4 space-y-3">
             {navItems.map((item) =>
-              item.href.startsWith("/group") ? (
+              item.isRoute ? (
                 <Link
                   key={item.label}
                   to="/group-orders"
