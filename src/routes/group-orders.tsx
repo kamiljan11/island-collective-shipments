@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { Users, Clock, ArrowRight, Shield, CreditCard, RotateCcw } from "lucide-react";
+import winterTiresImg from "@/assets/winter-tires-container.jpg";
 
 type Campaign = {
   id: string;
@@ -178,11 +179,14 @@ function CampaignCard({ campaign, index }: { campaign: Campaign; index: number }
         <div className="p-6 sm:p-8">
           <div className="flex flex-col sm:flex-row sm:items-start gap-6">
             {/* Image */}
-            {campaign.image_url && (
-              <div className="w-full sm:w-32 h-32 rounded-lg bg-secondary overflow-hidden shrink-0">
-                <img src={campaign.image_url} alt={campaign.title} className="w-full h-full object-cover" />
-              </div>
-            )}
+            <div className="w-full sm:w-48 h-48 sm:h-40 rounded-lg bg-secondary overflow-hidden shrink-0">
+              <img
+                src={campaign.image_url || winterTiresImg}
+                alt={campaign.title}
+                loading="lazy"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
 
             {/* Content */}
             <div className="flex-1 min-w-0">
