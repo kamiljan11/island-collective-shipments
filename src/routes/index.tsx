@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HeroSection } from "@/components/HeroSection";
-import { BrandMarquee } from "@/components/BrandMarquee";
+
 import { HubSection } from "@/components/HubSection";
 import { HowItWorksSection } from "@/components/HowItWorksSection";
 import { WhyMASSection } from "@/components/WhyMASSection";
@@ -22,7 +22,7 @@ function Index() {
   return (
     <>
       <HeroSection />
-      <BrandMarquee />
+      
       <HubSection />
       <HowItWorksSection />
       <WhyMASSection />
