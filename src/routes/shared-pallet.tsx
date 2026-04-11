@@ -18,96 +18,6 @@ export const Route = createFileRoute("/shared-pallet")({
 
 const TOTAL_CUBES = 24;
 
-/* ── Isometric pallet drawn with 2-D offsets (no CSS 3D) ── */
-function PalletVisualization({
-  hoveredCubes,
-  onCubeClick,
-}: {
-  hoveredCubes: number;
-  onCubeClick: (n: number) => void;
-}) {
-  // 4 layers × 6 cubes (3 cols × 2 rows per layer)
-  // Rendered bottom-to-top as stacked rows with negative margin overlap
-  return (
-    <div className="flex flex-col items-center mb-6">
-      {/* Layers rendered top (layer 3) to bottom (layer 0) */}
-      {[3, 2, 1, 0].map((layer) => (
-        <div
-          key={layer}
-          className="grid grid-cols-3 gap-1.5"
-          style={{ marginTop: layer < 3 ? -6 : 0, position: "relative", zIndex: 4 - layer }}
-        >
-          {/* 2 rows per layer: back row first, front row second */}
-          {[0, 1].map((row) =>
-            [0, 1, 2].map((col) => {
-              const cubeIndex = layer * 6 + row * 3 + col;
-              const isFilled = cubeIndex < hoveredCubes;
-              return (
-                <motion.button
-                  key={cubeIndex}
-                  onClick={() => onCubeClick(cubeIndex + 1)}
-                  className="flex flex-col"
-                  whileHover={{ y: -3 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {/* Top face */}
-                  <div
-                    className={`w-16 h-8 sm:w-20 sm:h-10 rounded-t-sm transition-all duration-200 flex items-center justify-center ${
-                      isFilled
-                        ? "border-primary/50"
-                        : "border-border/40"
-                    }`}
-                    style={{
-                      background: isFilled
-                        ? "linear-gradient(135deg, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.2))"
-                        : "linear-gradient(135deg, hsl(var(--secondary) / 0.6), hsl(var(--secondary) / 0.3))",
-                      borderWidth: 1.5,
-                      boxShadow: isFilled
-                        ? "inset 0 1px 6px hsl(var(--primary) / 0.12)"
-                        : "none",
-                    }}
-                  >
-                    {isFilled && <Package size={14} className="text-primary/50" />}
-                  </div>
-                  {/* Front face */}
-                  <div
-                    className="w-16 h-4 sm:w-20 sm:h-5 rounded-b-sm transition-all duration-200"
-                    style={{
-                      background: isFilled
-                        ? "linear-gradient(180deg, hsl(var(--primary) / 0.25), hsl(var(--primary) / 0.08))"
-                        : "linear-gradient(180deg, hsl(var(--secondary) / 0.4), hsl(var(--secondary) / 0.15))",
-                      borderWidth: 1.5,
-                      borderTop: "none",
-                      borderColor: isFilled
-                        ? "hsl(var(--primary) / 0.3)"
-                        : "hsl(var(--border) / 0.3)",
-                    }}
-                  />
-                </motion.button>
-              );
-            })
-          )}
-        </div>
-      ))}
-      {/* Wooden pallet base */}
-      <div
-        className="rounded-md"
-        style={{
-          width: "calc(100% + 8px)",
-          maxWidth: 268,
-          height: 14,
-          marginTop: -2,
-          background: "linear-gradient(180deg, hsl(30 30% 28%), hsl(30 25% 18%))",
-          border: "1px solid hsl(30 20% 15%)",
-          position: "relative",
-          zIndex: 0,
-          boxShadow: "0 4px 12px hsl(var(--primary) / 0.08)",
-        }}
-      />
-      </div>
-  );
-}
-
 const priceTiers = [
   { filled: 6, pricePerCube: 12000, label: "25% full" },
   { filled: 12, pricePerCube: 9000, label: "50% full" },
@@ -269,6 +179,84 @@ function SharedPalletPage() {
           </div>
         </motion.div>
       </div>
+    </div>
+  );
+}
+
+/* ── Isometric pallet drawn with 2-D offsets (no CSS 3D) ── */
+function PalletVisualization({
+  hoveredCubes,
+  onCubeClick,
+}: {
+  hoveredCubes: number;
+  onCubeClick: (n: number) => void;
+}) {
+  return (
+    <div className="flex flex-col items-center mb-6">
+      {[3, 2, 1, 0].map((layer) => (
+        <div
+          key={layer}
+          className="grid grid-cols-3 gap-1.5"
+          style={{ marginTop: layer < 3 ? -6 : 0, position: "relative", zIndex: 4 - layer }}
+        >
+          {[0, 1].map((row) =>
+            [0, 1, 2].map((col) => {
+              const cubeIndex = layer * 6 + row * 3 + col;
+              const isFilled = cubeIndex < hoveredCubes;
+              return (
+                <motion.button
+                  key={cubeIndex}
+                  onClick={() => onCubeClick(cubeIndex + 1)}
+                  className="flex flex-col"
+                  whileHover={{ y: -3 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <div
+                    className="w-16 h-8 sm:w-20 sm:h-10 rounded-t-sm transition-all duration-200 flex items-center justify-center"
+                    style={{
+                      background: isFilled
+                        ? "linear-gradient(135deg, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.2))"
+                        : "linear-gradient(135deg, hsl(var(--secondary) / 0.6), hsl(var(--secondary) / 0.3))",
+                      borderWidth: 1.5,
+                      borderColor: isFilled ? "hsl(var(--primary) / 0.5)" : "hsl(var(--border) / 0.4)",
+                      borderStyle: "solid",
+                      boxShadow: isFilled ? "inset 0 1px 6px hsl(var(--primary) / 0.12)" : "none",
+                    }}
+                  >
+                    {isFilled && <Package size={14} className="text-primary/50" />}
+                  </div>
+                  <div
+                    className="w-16 h-4 sm:w-20 sm:h-5 rounded-b-sm transition-all duration-200"
+                    style={{
+                      background: isFilled
+                        ? "linear-gradient(180deg, hsl(var(--primary) / 0.25), hsl(var(--primary) / 0.08))"
+                        : "linear-gradient(180deg, hsl(var(--secondary) / 0.4), hsl(var(--secondary) / 0.15))",
+                      borderWidth: 1.5,
+                      borderTop: "none",
+                      borderColor: isFilled ? "hsl(var(--primary) / 0.3)" : "hsl(var(--border) / 0.3)",
+                      borderStyle: "solid",
+                    }}
+                  />
+                </motion.button>
+              );
+            })
+          )}
+        </div>
+      ))}
+      <div
+        className="rounded-md"
+        style={{
+          width: "calc(100% + 8px)",
+          maxWidth: 268,
+          height: 14,
+          marginTop: -2,
+          background: "linear-gradient(180deg, hsl(30 30% 28%), hsl(30 25% 18%))",
+          border: "1px solid hsl(30 20% 15%)",
+          position: "relative",
+          zIndex: 0,
+          boxShadow: "0 4px 12px hsl(var(--primary) / 0.08)",
+        }}
+      />
     </div>
   );
 }
