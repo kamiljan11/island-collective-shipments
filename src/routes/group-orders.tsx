@@ -88,7 +88,7 @@ function GroupOrdersPage() {
           {[
             { icon: Shield, label: "Secure deposits", sub: "Registered Icelandic company" },
             { icon: RotateCcw, label: "Full refund", sub: "If target isn't reached" },
-            { icon: CreditCard, label: "Small deposit", sub: "Deducted from final price" },
+            { icon: CreditCard, label: "50/50 payment", sub: "Half upfront, half at pickup" },
           ].map((badge) => (
             <div key={badge.label} className="bg-card border border-border/60 rounded-xl p-4 text-center">
               <badge.icon size={18} className="mx-auto mb-2 text-primary" />
@@ -139,12 +139,11 @@ function GroupOrdersPage() {
           <h2 className="text-xl font-bold tracking-tight mb-8 text-center">
             How it works
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+          <div className="grid grid-cols-3 gap-6">
             {[
-              { num: "1", title: "We post a deal", desc: "A product with demand + a target number of orders." },
-              { num: "2", title: "You reserve a spot", desc: "Small deposit to lock in your place. No further commitment." },
-              { num: "3", title: "Target reached", desc: "We place the order. If not enough people join — full refund." },
-              { num: "4", title: "Delivery", desc: "Pay the remainder, receive your goods + a VAT invoice." },
+              { num: "1", title: "Join the waitlist", desc: "Sign up for a deal you're interested in. No payment, no commitment — just reserve your spot." },
+              { num: "2", title: "Pay 50% deposit", desc: "Once enough people join, we email you to confirm with a 50% deposit. Full refund if the target isn't reached." },
+              { num: "3", title: "Pick up & pay rest", desc: "When goods arrive in Iceland, pay the remaining 50% and collect your order. You get a full VAT invoice." },
             ].map((step) => (
               <div key={step.num} className="text-center">
                 <div className="w-8 h-8 rounded-full bg-primary/10 text-primary text-sm font-bold flex items-center justify-center mx-auto mb-3">

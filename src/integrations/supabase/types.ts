@@ -130,6 +130,57 @@ export type Database = {
           },
         ]
       }
+      notification_logs: {
+        Row: {
+          campaign_id: string | null
+          created_at: string
+          id: string
+          message: string
+          notification_type: string
+          order_id: string | null
+          recipient_email: string
+          sent_by: string | null
+          subject: string
+        }
+        Insert: {
+          campaign_id?: string | null
+          created_at?: string
+          id?: string
+          message: string
+          notification_type?: string
+          order_id?: string | null
+          recipient_email: string
+          sent_by?: string | null
+          subject: string
+        }
+        Update: {
+          campaign_id?: string | null
+          created_at?: string
+          id?: string
+          message?: string
+          notification_type?: string
+          order_id?: string | null
+          recipient_email?: string
+          sent_by?: string | null
+          subject?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_logs_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "group_campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notification_logs_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "group_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_idea_votes: {
         Row: {
           created_at: string

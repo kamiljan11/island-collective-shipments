@@ -145,7 +145,7 @@ export function CampaignDialog({
             {/* Price info */}
             <div className="grid grid-cols-2 gap-3 mb-5">
               <div className="bg-secondary/30 rounded-lg p-3 text-center">
-                <p className="text-[11px] text-muted-foreground mb-0.5">Deposit / unit</p>
+                <p className="text-[11px] text-muted-foreground mb-0.5">50% deposit / unit</p>
                 <p className="text-lg font-bold text-primary">
                   {campaign.deposit_amount.toLocaleString()} {campaign.currency}
                 </p>
@@ -180,16 +180,16 @@ export function CampaignDialog({
             {submitted ? (
               <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 text-center">
                 <CheckCircle size={32} className="text-primary mx-auto mb-3" />
-                <h3 className="text-base font-semibold mb-1">You're on the list!</h3>
+                <h3 className="text-base font-semibold mb-1">You're on the waitlist!</h3>
                 <p className="text-sm text-muted-foreground">
-                  We'll email you when the order is confirmed with deposit instructions.
+                  Once we have enough interest, we'll email you with instructions to pay the 50% deposit. You pay the remaining 50% at pickup.
                 </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-3">
-                <h3 className="text-sm font-semibold">Join this deal</h3>
+                <h3 className="text-sm font-semibold">Join the waitlist</h3>
                 <p className="text-xs text-muted-foreground -mt-1">
-                  No payment now. We contact you when the order is confirmed.
+                  No payment now. Once enough people join, we'll email you to pay a 50% deposit. Remaining 50% at pickup.
                 </p>
 
                 {error && (
@@ -242,12 +242,12 @@ export function CampaignDialog({
                   className="w-full bg-primary text-primary-foreground py-2.5 rounded-lg font-semibold text-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {submitting
-                    ? "Signing up..."
+                    ? "Joining..."
                     : campaign.status !== "active"
                       ? "Campaign closed"
                       : spotsLeft <= 0
                         ? "Campaign full"
-                        : "Join Interest List"}
+                        : "Join Waitlist — No Payment Now"}
                 </button>
               </form>
             )}
