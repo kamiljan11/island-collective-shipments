@@ -293,9 +293,9 @@ function CampaignDetailPage() {
                   </div>
 
                   <div className="bg-secondary rounded-lg p-3 text-center">
-                    <p className="text-xs text-muted-foreground">Deposit per unit</p>
+                    <p className="text-xs text-muted-foreground">Deposit when confirmed (50%)</p>
                     <p className="text-xl font-black text-primary">
-                      {campaign.deposit_amount.toLocaleString()} {campaign.currency}
+                      {campaign.deposit_amount.toLocaleString()} {campaign.currency} <span className="text-xs font-normal text-muted-foreground">/ unit</span>
                     </p>
                   </div>
 
@@ -304,11 +304,11 @@ function CampaignDetailPage() {
                     disabled={submitting || spotsLeft <= 0}
                     className="w-full bg-primary text-primary-foreground py-3 rounded-md font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50"
                   >
-                    {submitting ? "Reserving..." : spotsLeft <= 0 ? "Campaign Full" : "Reserve My Spot"}
+                    {submitting ? "Signing up..." : spotsLeft <= 0 ? "Campaign Full" : "Join Interest List"}
                   </button>
 
                   <p className="text-[11px] text-muted-foreground text-center">
-                    By reserving, you agree to pay the deposit. Full refund if target isn't reached.
+                    No payment now. We'll contact you when the order is confirmed.
                   </p>
                 </form>
               )}
