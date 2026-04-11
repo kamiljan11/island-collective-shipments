@@ -180,6 +180,7 @@ function GroupOrdersPage() {
           </Link>
         </motion.div>
       </div>
+    </div>
   );
 }
 
