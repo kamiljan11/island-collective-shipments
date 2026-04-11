@@ -197,6 +197,7 @@ export type Database = {
           company_name: string
           content: string
           created_at: string
+          delivery_to_door: boolean
           email: string
           estimated_value: string | null
           form_type: string
@@ -211,6 +212,7 @@ export type Database = {
           company_name: string
           content: string
           created_at?: string
+          delivery_to_door?: boolean
           email: string
           estimated_value?: string | null
           form_type?: string
@@ -225,6 +227,7 @@ export type Database = {
           company_name?: string
           content?: string
           created_at?: string
+          delivery_to_door?: boolean
           email?: string
           estimated_value?: string | null
           form_type?: string

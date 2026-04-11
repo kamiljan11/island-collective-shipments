@@ -10,6 +10,7 @@ const quoteSchema = z.object({
   company_name: z.string().min(1).max(255),
   kennitala: z.string().min(1).max(20),
   email: z.string().email().max(255),
+  delivery_to_door: z.boolean().optional(),
 });
 
 export const submitQuoteRequest = createServerFn({ method: "POST" })
@@ -30,6 +31,7 @@ export const submitQuoteRequest = createServerFn({ method: "POST" })
       company_name: data.company_name,
       kennitala: data.kennitala,
       email: data.email,
+      delivery_to_door: data.delivery_to_door ?? false,
     });
 
     if (error) {

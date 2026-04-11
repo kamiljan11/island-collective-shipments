@@ -1,0 +1,1 @@
+ALTER TABLE public.quote_requests ADD COLUMN delivery_to_door boolean NOT NULL DEFAULT false;
