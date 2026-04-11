@@ -39,7 +39,7 @@ function Index() {
               to="/group-orders"
               className="group bg-card border border-border/60 hover:border-primary/40 rounded-xl p-6 transition-all"
             >
-              <div className="text-2xl mb-3">📦</div>
+              <p className="text-[11px] text-muted-foreground tracking-widest mb-3">SERVICE 1</p>
               <h2 className="text-base font-semibold mb-2">Bulk Deals</h2>
               <p className="text-sm text-muted-foreground leading-relaxed mb-4">
                 We organize container shipments for popular products. You join, split the freight cost, and save up to 40%.
@@ -53,7 +53,7 @@ function Index() {
               to="/import"
               className="group bg-card border border-border/60 hover:border-primary/40 rounded-xl p-6 transition-all"
             >
-              <div className="text-2xl mb-3">🔗</div>
+              <p className="text-[11px] text-muted-foreground tracking-widest mb-3">SERVICE 2</p>
               <h2 className="text-base font-semibold mb-2">Import Service</h2>
               <p className="text-sm text-muted-foreground leading-relaxed mb-4">
                 Found something in a European store? Send us the link. We buy it and get it to Iceland for you.
