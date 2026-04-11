@@ -18,6 +18,129 @@ export const Route = createFileRoute("/shared-pallet")({
 
 const TOTAL_CUBES = 24;
 
+/* ── Isometric pallet drawn with 2-D offsets (no CSS 3D) ── */
+function PalletVisualization({ hoveredCubes, onCubeClick }: { hoveredCubes: number; onCubeClick: (n: number) => void }) {
+  // 4 layers × 6 cubes (3 cols × 2 rows)
+  const cubeW = 56;
+  const cubeH = 32; // isometric height for top face
+  const cubeD = 22; // depth of side faces
+  const gapX = 4;
+  const gapY = 4;
+  const layerLift = 28; // vertical lift per layer
+
+  // compute total size for centering
+  const totalW = 3 * cubeW + 2 * gapX;
+  const totalH = 2 * cubeH + gapY + 3 * layerLift + cubeD + 8;
+
+  return (
+    <div className="flex justify-center mb-6">
+      <div className="relative" style={{ width: totalW, height: totalH }}>
+        {/* Pallet base shadow */}
+        <div
+          className="absolute rounded-md"
+          style={{
+            left: 4,
+            bottom: 0,
+            width: totalW - 8,
+            height: 8,
+            background: "hsl(var(--primary) / 0.08)",
+            filter: "blur(8px)",
+          }}
+        />
+        {/* Wooden pallet base */}
+        <div
+          className="absolute rounded-md border"
+          style={{
+            left: 0,
+            bottom: 0,
+            width: totalW,
+            height: cubeD + 6,
+            background: "linear-gradient(180deg, hsl(30 30% 28%), hsl(30 25% 20%))",
+            borderColor: "hsl(30 20% 16%)",
+          }}
+        >
+          {/* Slats */}
+          {[0.2, 0.5, 0.8].map((p) => (
+            <div
+              key={p}
+              className="absolute"
+              style={{
+                left: `${p * 100}%`,
+                top: 2,
+                bottom: 2,
+                width: 2,
+                background: "hsl(30 15% 14%)",
+                borderRadius: 1,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Cubes */}
+        {Array.from({ length: TOTAL_CUBES }).map((_, i) => {
+          const layer = Math.floor(i / 6);
+          const posInLayer = i % 6;
+          const col = posInLayer % 3;
+          const row = Math.floor(posInLayer / 3);
+          const isFilled = i < hoveredCubes;
+
+          const x = col * (cubeW + gapX);
+          const y = totalH - cubeD - 6 - cubeH - row * (cubeH + gapY) - layer * layerLift;
+
+          return (
+            <motion.button
+              key={i}
+              onClick={() => onCubeClick(i + 1)}
+              className="absolute"
+              style={{
+                left: x,
+                top: y,
+                width: cubeW,
+                height: cubeH + cubeD,
+                zIndex: layer * 10 + (1 - row) * 5 + col,
+              }}
+              whileHover={{ y: -3 }}
+              whileTap={{ scale: 0.96 }}
+            >
+              {/* Top face */}
+              <div
+                className="absolute left-0 top-0 rounded-t-sm transition-all duration-200"
+                style={{
+                  width: cubeW,
+                  height: cubeH,
+                  background: isFilled
+                    ? "linear-gradient(135deg, hsl(var(--primary) / 0.35), hsl(var(--primary) / 0.2))"
+                    : "linear-gradient(135deg, hsl(var(--secondary) / 0.6), hsl(var(--secondary) / 0.35))",
+                  border: `1.5px solid ${isFilled ? "hsl(var(--primary) / 0.5)" : "hsl(var(--border) / 0.5)"}`,
+                  boxShadow: isFilled ? "inset 0 1px 4px hsl(var(--primary) / 0.15)" : "none",
+                }}
+              >
+                {isFilled && (
+                  <Package size={14} className="absolute inset-0 m-auto text-primary/50" />
+                )}
+              </div>
+              {/* Front face */}
+              <div
+                className="absolute left-0 rounded-b-sm transition-all duration-200"
+                style={{
+                  top: cubeH - 1,
+                  width: cubeW,
+                  height: cubeD,
+                  background: isFilled
+                    ? "linear-gradient(180deg, hsl(var(--primary) / 0.22), hsl(var(--primary) / 0.12))"
+                    : "linear-gradient(180deg, hsl(var(--secondary) / 0.4), hsl(var(--secondary) / 0.2))",
+                  border: `1.5px solid ${isFilled ? "hsl(var(--primary) / 0.35)" : "hsl(var(--border) / 0.35)"}`,
+                  borderTop: "none",
+                }}
+              />
+            </motion.button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 const priceTiers = [
   { filled: 6, pricePerCube: 12000, label: "25% full" },
   { filled: 12, pricePerCube: 9000, label: "50% full" },
