@@ -146,6 +146,24 @@ function CampaignDetailPage() {
                 <p className="text-muted-foreground text-lg mb-6">{campaign.description}</p>
               )}
 
+              {/* Flow explanation */}
+              <div className="bg-secondary/50 border border-border rounded-xl p-5 mb-6">
+                <h3 className="text-sm font-bold mb-3">HOW IT WORKS</h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-start gap-3">
+                    <span className="text-primary font-black text-xs mt-0.5">1</span>
+                    <span className="text-muted-foreground">Sign up to the interest list — <strong className="text-foreground">no payment yet</strong></span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-primary font-black text-xs mt-0.5">2</span>
+                    <span className="text-muted-foreground">When we confirm the order, we'll ask for a <strong className="text-foreground">50% deposit</strong></span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-primary font-black text-xs mt-0.5">3</span>
+                    <span className="text-muted-foreground">Container ships → you pay remainder and receive goods + VAT invoice</span>
+                  </div>
+                </div>
+              </div>
               {/* Progress */}
               <div className="bg-card border border-border rounded-xl p-6 mb-6">
                 <div className="flex items-center justify-between text-sm mb-3">
@@ -220,25 +238,18 @@ function CampaignDetailPage() {
               {submitted ? (
                 <div className="bg-card border border-hub-green/30 rounded-xl p-8 text-center">
                   <CheckCircle size={48} className="text-hub-green mx-auto mb-4" />
-                  <h2 className="text-xl font-bold mb-2">Spot Reserved!</h2>
+                  <h2 className="text-xl font-bold mb-2">You're on the list!</h2>
                   <p className="text-muted-foreground text-sm mb-4">
-                    Your reservation is confirmed. We'll contact you with deposit payment instructions.
+                    We've added you to the interest list. When we confirm the order, we'll email you with deposit payment instructions (50%).
                   </p>
-                  {depositInfo && (
-                    <div className="bg-secondary rounded-lg p-4 mb-4">
-                      <p className="text-xs text-muted-foreground mb-1">DEPOSIT TO PAY</p>
-                      <p className="text-2xl font-black text-primary">
-                        {depositInfo.amount.toLocaleString()} {depositInfo.currency}
-                      </p>
-                    </div>
-                  )}
                   <p className="text-xs text-muted-foreground">
-                    Payment instructions will be sent to your email.
+                    No payment required now. We'll be in touch!
                   </p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="bg-card border border-border rounded-xl p-6 space-y-4">
-                  <h2 className="text-lg font-bold">Reserve Your Spot</h2>
+                  <h2 className="text-lg font-bold">Join Interest List</h2>
+                  <p className="text-xs text-muted-foreground -mt-2">No payment required now. We'll contact you when we're ready to proceed.</p>
 
                   {error && (
                     <div className="bg-destructive/10 border border-destructive/30 rounded-md p-3 text-sm text-destructive">
@@ -282,9 +293,9 @@ function CampaignDetailPage() {
                   </div>
 
                   <div className="bg-secondary rounded-lg p-3 text-center">
-                    <p className="text-xs text-muted-foreground">Deposit per unit</p>
+                    <p className="text-xs text-muted-foreground">Deposit when confirmed (50%)</p>
                     <p className="text-xl font-black text-primary">
-                      {campaign.deposit_amount.toLocaleString()} {campaign.currency}
+                      {campaign.deposit_amount.toLocaleString()} {campaign.currency} <span className="text-xs font-normal text-muted-foreground">/ unit</span>
                     </p>
                   </div>
 
@@ -293,11 +304,11 @@ function CampaignDetailPage() {
                     disabled={submitting || spotsLeft <= 0}
                     className="w-full bg-primary text-primary-foreground py-3 rounded-md font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50"
                   >
-                    {submitting ? "Reserving..." : spotsLeft <= 0 ? "Campaign Full" : "Reserve My Spot"}
+                    {submitting ? "Signing up..." : spotsLeft <= 0 ? "Campaign Full" : "Join Interest List"}
                   </button>
 
                   <p className="text-[11px] text-muted-foreground text-center">
-                    By reserving, you agree to pay the deposit. Full refund if target isn't reached.
+                    No payment now. We'll contact you when the order is confirmed.
                   </p>
                 </form>
               )}
