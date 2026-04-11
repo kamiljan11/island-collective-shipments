@@ -2,11 +2,11 @@ import { motion } from "framer-motion";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const faqs = [
-  { q: "Do you provide VAT-compliant invoices?", a: "Yes. Every order comes with a valid Icelandic VAT Invoice from Mountain All Service ehf. This simplifies your bookkeeping and VAT reclamation." },
-  { q: "Why use you instead of buying direct?", a: "Most European suppliers won't export to Iceland, don't handle customs, or can't issue local invoices. We bridge all three gaps and consolidate shipments to save you freight costs." },
-  { q: "Can you consolidate orders from multiple suppliers?", a: "Absolutely. Our hub in Poland receives goods from multiple EU suppliers, repacks them, and ships everything as one consolidated pallet to Iceland." },
-  { q: "What are the payment terms?", a: "We require payment before placing orders with suppliers. For recurring clients, we offer flexible payment arrangements. Contact us to discuss." },
-  { q: "Do you offer express freight?", a: "Yes. We offer both standard freight (14-day cycle) and urgent air freight (3-5 day express) for time-critical parts." },
+  { q: "Do I get a proper VAT invoice?", a: "Yes. Every order includes a valid Icelandic VAT invoice from Mountain All Service ehf. Clean bookkeeping and easy VAT reclamation — whether you're a business or an individual." },
+  { q: "Why not just buy direct from Europe?", a: "Most European stores won't ship to Iceland, can't handle customs, and don't issue local invoices. We solve all three — and save you money by consolidating shipments." },
+  { q: "Can you combine orders from different stores?", a: "Absolutely. We receive goods from multiple EU suppliers at our hub in Poland, repack everything, and ship it as one consolidated shipment to Iceland." },
+  { q: "What are the payment terms?", a: "We require payment before purchasing from suppliers. For returning customers, we're happy to discuss flexible arrangements." },
+  { q: "How fast can you deliver?", a: "Standard container shipping takes about 14 days. For urgent items, we offer air freight in 3–5 days." },
 ];
 
 export function FAQSection() {
@@ -19,7 +19,7 @@ export function FAQSection() {
           viewport={{ once: true }}
           className="text-2xl sm:text-3xl font-bold tracking-tight mb-10 text-center"
         >
-          Frequently asked questions
+          Common questions
         </motion.h2>
 
         <Accordion type="single" collapsible className="space-y-2">
@@ -32,7 +32,7 @@ export function FAQSection() {
               <AccordionTrigger className="text-sm font-medium hover:no-underline py-4">
                 {faq.q}
               </AccordionTrigger>
-              <AccordionContent className="text-sm text-muted-foreground pb-4">
+              <AccordionContent className="text-sm text-muted-foreground pb-4 leading-relaxed">
                 {faq.a}
               </AccordionContent>
             </AccordionItem>

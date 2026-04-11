@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, Clock, ArrowRight, Shield, CreditCard, RotateCcw } from "lucide-react";
+import { Users, ArrowRight, Shield, CreditCard, RotateCcw } from "lucide-react";
 import winterTiresImg from "@/assets/winter-tires-container.jpg";
 
 type Campaign = {
@@ -24,10 +24,10 @@ type Campaign = {
 export const Route = createFileRoute("/group-orders")({
   head: () => ({
     meta: [
-      { title: "Bulk Deals — MAS Logistics" },
-      { name: "description", content: "Join group orders to save on bulk shipping from Europe to Iceland. Container shipments with small deposits." },
+      { title: "Bulk Deals — Save on Shipping from Europe | MAS Logistics" },
+      { name: "description", content: "Join a group order and split container shipping from Europe to Iceland. Small deposit, big savings. Full refund if the target isn't reached." },
       { property: "og:title", content: "Bulk Deals — MAS Logistics" },
-      { property: "og:description", content: "Join group orders to save on bulk shipping from Europe to Iceland." },
+      { property: "og:description", content: "Pool orders with others, fill a container, save up to 40% on freight." },
     ],
   }),
   component: GroupOrdersPage,
@@ -59,12 +59,14 @@ function GroupOrdersPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-10"
         >
-          <p className="text-xs text-primary tracking-widest mb-4">BULK PURCHASING</p>
+          <p className="text-xs text-primary tracking-widest mb-4">BULK DEALS</p>
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
-            Bulk <span className="text-primary">Deals</span>
+            Split the container.
+            <br />
+            <span className="text-primary">Keep the savings.</span>
           </h1>
           <p className="text-muted-foreground text-sm max-w-md mx-auto leading-relaxed">
-            We organize container shipments for specific products. Reserve your spot with a small deposit — when enough people join, we ship and everyone saves.
+            We find products with high demand, organize a group order, and ship by container. You reserve a spot with a small deposit — when enough people join, we ship and everyone pays less.
           </p>
         </motion.div>
 
@@ -76,8 +78,8 @@ function GroupOrdersPage() {
           className="grid grid-cols-3 gap-3 mb-12"
         >
           {[
-            { icon: Shield, label: "Secure deposits", sub: "Mountain All Service ehf." },
-            { icon: RotateCcw, label: "Full refund", sub: "If target not reached" },
+            { icon: Shield, label: "Secure deposits", sub: "Registered Icelandic company" },
+            { icon: RotateCcw, label: "Full refund", sub: "If target isn't reached" },
             { icon: CreditCard, label: "Small deposit", sub: "Deducted from final price" },
           ].map((badge) => (
             <div key={badge.label} className="bg-card border border-border/60 rounded-xl p-4 text-center">
@@ -90,7 +92,7 @@ function GroupOrdersPage() {
 
         {/* Campaigns */}
         {loading ? (
-          <div className="text-center py-20 text-muted-foreground text-sm">Loading campaigns...</div>
+          <div className="text-center py-20 text-muted-foreground text-sm">Loading deals...</div>
         ) : campaigns.length === 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
@@ -98,12 +100,12 @@ function GroupOrdersPage() {
             className="bg-card border border-border/60 rounded-xl p-12 text-center"
           >
             <div className="text-4xl mb-4">📦</div>
-            <h2 className="text-lg font-semibold mb-2">No active campaigns</h2>
+            <h2 className="text-lg font-semibold mb-2">No active deals right now</h2>
             <p className="text-sm text-muted-foreground mb-6">
-              We're planning our next group order. Check back soon or use our import service!
+              We're preparing the next group order. In the meantime, you can use our import service to get anything from Europe.
             </p>
             <Link to="/import" className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">
-              Import Service <ArrowRight size={14} />
+              Use Import Service <ArrowRight size={14} />
             </Link>
           </motion.div>
         ) : (
@@ -122,14 +124,14 @@ function GroupOrdersPage() {
           className="mt-20"
         >
           <h2 className="text-xl font-bold tracking-tight mb-8 text-center">
-            How it <span className="text-primary">works</span>
+            How it works
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
             {[
-              { num: "1", title: "We post a campaign", desc: "We find a product with demand and set a target." },
-              { num: "2", title: "You reserve a spot", desc: "Small deposit to secure your place." },
-              { num: "3", title: "Target reached", desc: "We order. If not — full refund." },
-              { num: "4", title: "Delivery", desc: "Pay remainder, receive goods + VAT invoice." },
+              { num: "1", title: "We post a deal", desc: "A product with demand + a target number of orders." },
+              { num: "2", title: "You reserve a spot", desc: "Small deposit to lock in your place. No further commitment." },
+              { num: "3", title: "Target reached", desc: "We place the order. If not enough people join — full refund." },
+              { num: "4", title: "Delivery", desc: "Pay the remainder, receive your goods + a VAT invoice." },
             ].map((step) => (
               <div key={step.num} className="text-center">
                 <div className="w-8 h-8 rounded-full bg-primary/10 text-primary text-sm font-bold flex items-center justify-center mx-auto mb-3">
@@ -151,7 +153,7 @@ function GroupOrdersPage() {
         >
           <h2 className="text-lg font-bold mb-2">Need something specific?</h2>
           <p className="text-sm text-muted-foreground max-w-md mx-auto mb-5">
-            Send us a link from any European store — we'll buy it, ship it, and deliver it to you.
+            Don't see what you're looking for? Send us a product link from any European store — we'll buy it and ship it to you.
           </p>
           <Link
             to="/import"
@@ -181,7 +183,6 @@ function CampaignCard({ campaign, index }: { campaign: Campaign; index: number }
         className="block bg-card border border-border/60 rounded-xl overflow-hidden hover:border-primary/30 transition-colors group"
       >
         <div className="flex gap-4 p-5">
-          {/* Image */}
           <div className="w-24 h-24 rounded-lg bg-secondary overflow-hidden shrink-0">
             <img
               src={campaign.image_url || winterTiresImg}
@@ -191,7 +192,6 @@ function CampaignCard({ campaign, index }: { campaign: Campaign; index: number }
             />
           </div>
 
-          {/* Content */}
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-2">
               <h3 className="font-semibold text-sm group-hover:text-primary transition-colors">
@@ -204,7 +204,6 @@ function CampaignCard({ campaign, index }: { campaign: Campaign; index: number }
               <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{campaign.description}</p>
             )}
 
-            {/* Progress */}
             <div className="mt-3">
               <div className="flex items-center justify-between text-xs mb-1.5">
                 <span className="flex items-center gap-1">

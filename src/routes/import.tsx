@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowRight, Link2, MessageSquare, ShoppingCart, FileCheck, Search, Package } from "lucide-react";
+import { ArrowRight, Link2, MessageSquare, ShoppingCart, FileCheck, Search } from "lucide-react";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { submitQuoteRequest } from "@/utils/orders.functions";
@@ -9,28 +9,28 @@ import { submitQuoteRequest } from "@/utils/orders.functions";
 export const Route = createFileRoute("/import")({
   head: () => ({
     meta: [
-      { title: "Import Service — MAS Logistics" },
-      { name: "description", content: "Send us a link from any European store. We buy, ship, and deliver to Iceland with customs clearance and VAT invoice." },
-      { property: "og:title", content: "Import Service — Buy Anything from Europe" },
-      { property: "og:description", content: "We buy products from European stores and ship them to Iceland for you." },
+      { title: "Import Service — Buy Anything from Europe | MAS Logistics" },
+      { name: "description", content: "Found a product in Europe that won't ship to Iceland? Send us the link. We buy it, handle customs, and deliver it to your door with a VAT invoice." },
+      { property: "og:title", content: "Import Service — MAS Logistics" },
+      { property: "og:description", content: "Send us a link from any European store. We buy it and deliver it to Iceland." },
     ],
   }),
   component: ImportPage,
 });
 
 const steps = [
-  { icon: Link2, title: "Send us a link", desc: "Paste a product URL from any European store — or describe what you need." },
-  { icon: MessageSquare, title: "We quote you", desc: "Product cost + shipping + service fee. No hidden charges." },
-  { icon: ShoppingCart, title: "We buy & ship", desc: "We purchase, receive at our hub, and ship to Iceland." },
-  { icon: FileCheck, title: "You receive it", desc: "Delivered with a valid Icelandic VAT invoice." },
+  { icon: Link2, title: "Send us a link", desc: "Paste a URL from any European store, or tell us what you're looking for." },
+  { icon: MessageSquare, title: "Get your quote", desc: "We send you a clear breakdown: product + shipping + our fee. No surprises." },
+  { icon: ShoppingCart, title: "We buy and ship", desc: "We purchase, receive at our Poland hub, and ship by container to Iceland." },
+  { icon: FileCheck, title: "Delivered to you", desc: "You get the goods and a valid Icelandic VAT invoice for your records." },
 ];
 
 const faqs = [
-  { q: "What stores can you buy from?", a: "Any European online or physical store — Amazon.de, Zalando, specialist retailers, industrial suppliers. If they sell it in Europe, we can get it." },
-  { q: "How much do you charge?", a: "We quote each order individually: product cost + shipping + a transparent service fee. No hidden charges. You approve the full price before we buy." },
-  { q: "How long does it take?", a: "Standard container shipping takes about 14 days. For urgent items, we offer air freight in 3-5 days." },
-  { q: "Do I get a VAT invoice?", a: "Yes — businesses receive a valid Icelandic VAT invoice from Mountain All Service ehf, simplifying your bookkeeping and VAT reclamation." },
-  { q: "What if the store doesn't ship to Iceland?", a: "That's exactly why we exist. We buy using our European address and handle all the forwarding, customs, and delivery." },
+  { q: "What stores can you buy from?", a: "Any European store — online or physical. Amazon.de, Zalando, specialist retailers, industrial suppliers, you name it. If they sell it in Europe, we can get it." },
+  { q: "How much does it cost?", a: "Every quote is tailored: product price + shipping + a transparent service fee. You see the full price before we buy anything. No hidden charges, ever." },
+  { q: "How long does delivery take?", a: "Container shipping takes about 14 days. Need it faster? We offer air freight in 3–5 days for urgent orders." },
+  { q: "Do I get a VAT invoice?", a: "Yes. You receive a valid Icelandic VAT invoice from Mountain All Service ehf. Makes bookkeeping and VAT reclamation simple." },
+  { q: "What if the store doesn't ship to Iceland?", a: "That's exactly why we exist. We buy using our European address and handle all forwarding, customs, and delivery to your door." },
 ];
 
 function ImportPage() {
@@ -42,13 +42,13 @@ function ImportPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <p className="text-xs text-primary tracking-widest mb-4">IMPORT SERVICE</p>
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
-              Send us a link.
+              Found it in Europe?
               <br />
-              <span className="text-primary">We handle the rest.</span>
+              <span className="text-primary">We'll get it to Iceland.</span>
             </h1>
             <p className="text-muted-foreground text-sm max-w-md mx-auto leading-relaxed">
-              Found a product in a European store that doesn't ship to Iceland? 
-              We buy it, ship it, and deliver it to you.
+              You shouldn't have to give up on a product just because the store won't ship here.
+              Send us the link — we handle purchasing, customs, and delivery.
             </p>
           </motion.div>
         </div>
@@ -85,9 +85,12 @@ function ImportPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-xl font-bold tracking-tight text-center mb-8">
-              Get a <span className="text-primary">quote</span>
+            <h2 className="text-xl font-bold tracking-tight text-center mb-2">
+              Get your <span className="text-primary">quote</span>
             </h2>
+            <p className="text-sm text-muted-foreground text-center mb-8">
+              Tell us what you need. We'll reply within 24 hours with a full price breakdown.
+            </p>
             <ImportForm />
           </motion.div>
         </div>
@@ -102,7 +105,7 @@ function ImportPage() {
             viewport={{ once: true }}
             className="text-xl font-bold tracking-tight mb-8 text-center"
           >
-            Import <span className="text-primary">FAQ</span>
+            Common questions
           </motion.h2>
           <div className="space-y-2">
             {faqs.map((faq, i) => (
@@ -120,9 +123,9 @@ function ImportPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-lg font-bold mb-2">Want even bigger savings?</h2>
+            <h2 className="text-lg font-bold mb-2">Ordering in larger quantities?</h2>
             <p className="text-sm text-muted-foreground max-w-sm mx-auto mb-5">
-              Check our bulk deals — we pool orders, fill a container, and everyone saves up to 40%.
+              Check our bulk deals — we pool orders into container shipments so everyone saves on freight.
             </p>
             <Link
               to="/group-orders"
@@ -149,7 +152,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         <span className="text-muted-foreground text-lg ml-4">{open ? "−" : "+"}</span>
       </button>
       {open && (
-        <p className="text-sm text-muted-foreground pb-4">{a}</p>
+        <p className="text-sm text-muted-foreground pb-4 leading-relaxed">{a}</p>
       )}
     </div>
   );
@@ -187,7 +190,7 @@ function ImportForm() {
       });
       setSubmitted(true);
     } catch (err) {
-      setError("Failed to submit. Please try again.");
+      setError("Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -197,9 +200,9 @@ function ImportForm() {
     return (
       <div className="bg-card border border-border/60 rounded-xl p-10 text-center">
         <div className="text-4xl mb-4">✅</div>
-        <h3 className="text-lg font-semibold mb-2">Request sent!</h3>
+        <h3 className="text-lg font-semibold mb-2">Request received!</h3>
         <p className="text-sm text-muted-foreground">
-          We'll get back to you within 24 hours with a full quote.
+          We'll get back to you within 24 hours with a full price breakdown — product, shipping, and our fee.
         </p>
       </div>
     );
@@ -237,19 +240,19 @@ function ImportForm() {
         {/* Main input */}
         <div>
           <label className="text-xs font-medium text-muted-foreground block mb-1.5">
-            {formType === "links" ? "Product link *" : "What do you need? *"}
+            {formType === "links" ? "Product link *" : "What are you looking for? *"}
           </label>
           <textarea
             name="content"
             required
             className={`${inputClasses} min-h-[100px] resize-y`}
-            placeholder={formType === "links" ? "Paste the product URL here..." : "Describe the product — brand, model, specs, quantity..."}
+            placeholder={formType === "links" ? "Paste the product URL here — e.g. amazon.de/dp/..." : "Describe what you need — brand, model, specs, quantity..."}
           />
         </div>
 
         {/* Shipping speed */}
         <div>
-          <label className="text-xs font-medium text-muted-foreground block mb-2">Shipping speed</label>
+          <label className="text-xs font-medium text-muted-foreground block mb-2">How fast do you need it?</label>
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
@@ -265,7 +268,7 @@ function ImportForm() {
               className={`px-4 py-3 rounded-lg text-sm transition-colors border ${priority === "urgent" ? "border-primary/40 bg-card" : "border-border/60 text-muted-foreground"}`}
             >
               <span className="font-medium block text-primary">Air freight</span>
-              <span className="text-xs text-muted-foreground">3-5 days</span>
+              <span className="text-xs text-muted-foreground">3–5 days</span>
             </button>
           </div>
         </div>
@@ -273,7 +276,7 @@ function ImportForm() {
         {/* Optional details */}
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-xs font-medium text-muted-foreground block mb-1.5">Est. value</label>
+            <label className="text-xs font-medium text-muted-foreground block mb-1.5">Estimated value</label>
             <input name="estimated_value" className={inputClasses} placeholder="e.g. 2,000 EUR" />
           </div>
           <div>
@@ -285,7 +288,7 @@ function ImportForm() {
         {/* Contact info */}
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-xs font-medium text-muted-foreground block mb-1.5">Name / company *</label>
+            <label className="text-xs font-medium text-muted-foreground block mb-1.5">Your name or company *</label>
             <input name="company_name" required className={inputClasses} />
           </div>
           <div>
@@ -304,11 +307,11 @@ function ImportForm() {
           disabled={submitting}
           className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold text-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
         >
-          {submitting ? "Sending..." : "Get a Quote"}
+          {submitting ? "Sending..." : "Get My Quote"}
         </button>
 
         <p className="text-xs text-muted-foreground text-center">
-          We'll reply within 24 hours with a full breakdown.
+          Free quote, no commitment. We reply within 24 hours.
         </p>
       </form>
     </div>
