@@ -21,16 +21,16 @@ const TOTAL_CUBES = 24;
 /* ── Isometric pallet drawn with 2-D offsets (no CSS 3D) ── */
 function PalletVisualization({ hoveredCubes, onCubeClick }: { hoveredCubes: number; onCubeClick: (n: number) => void }) {
   // 4 layers × 6 cubes (3 cols × 2 rows)
-  const cubeW = 56;
-  const cubeH = 32; // isometric height for top face
-  const cubeD = 22; // depth of side faces
-  const gapX = 4;
-  const gapY = 4;
-  const layerLift = 28; // vertical lift per layer
+  const cubeW = 80;
+  const cubeH = 44; // top face height
+  const cubeD = 30; // front face depth
+  const gapX = 5;
+  const gapY = 5;
+  const layerLift = 38; // vertical lift per layer
 
   // compute total size for centering
   const totalW = 3 * cubeW + 2 * gapX;
-  const totalH = 2 * cubeH + gapY + 3 * layerLift + cubeD + 8;
+  const totalH = 2 * (cubeH + cubeD) + gapY + 3 * layerLift + 16;
 
   return (
     <div className="flex justify-center mb-6">
@@ -39,36 +39,37 @@ function PalletVisualization({ hoveredCubes, onCubeClick }: { hoveredCubes: numb
         <div
           className="absolute rounded-md"
           style={{
-            left: 4,
-            bottom: 0,
-            width: totalW - 8,
-            height: 8,
-            background: "hsl(var(--primary) / 0.08)",
-            filter: "blur(8px)",
+            left: -8,
+            bottom: -6,
+            width: totalW + 16,
+            height: 16,
+            background: "hsl(var(--primary) / 0.12)",
+            filter: "blur(12px)",
+            borderRadius: 12,
           }}
         />
         {/* Wooden pallet base */}
         <div
           className="absolute rounded-md border"
           style={{
-            left: 0,
+            left: -4,
             bottom: 0,
-            width: totalW,
-            height: cubeD + 6,
+            width: totalW + 8,
+            height: 18,
             background: "linear-gradient(180deg, hsl(30 30% 28%), hsl(30 25% 20%))",
             borderColor: "hsl(30 20% 16%)",
           }}
         >
-          {/* Slats */}
-          {[0.2, 0.5, 0.8].map((p) => (
+          {/* Wooden slats */}
+          {[0.15, 0.38, 0.62, 0.85].map((p) => (
             <div
               key={p}
               className="absolute"
               style={{
                 left: `${p * 100}%`,
-                top: 2,
-                bottom: 2,
-                width: 2,
+                top: 3,
+                bottom: 3,
+                width: 1.5,
                 background: "hsl(30 15% 14%)",
                 borderRadius: 1,
               }}
@@ -85,7 +86,7 @@ function PalletVisualization({ hoveredCubes, onCubeClick }: { hoveredCubes: numb
           const isFilled = i < hoveredCubes;
 
           const x = col * (cubeW + gapX);
-          const y = totalH - cubeD - 6 - cubeH - row * (cubeH + gapY) - layer * layerLift;
+          const y = totalH - 18 - (cubeH + cubeD) - row * (cubeH + cubeD + gapY) - layer * layerLift;
 
           return (
             <motion.button
@@ -99,37 +100,39 @@ function PalletVisualization({ hoveredCubes, onCubeClick }: { hoveredCubes: numb
                 height: cubeH + cubeD,
                 zIndex: layer * 10 + (1 - row) * 5 + col,
               }}
-              whileHover={{ y: -3 }}
+              whileHover={{ y: -4 }}
               whileTap={{ scale: 0.96 }}
             >
               {/* Top face */}
               <div
-                className="absolute left-0 top-0 rounded-t-sm transition-all duration-200"
+                className="absolute left-0 top-0 rounded-t transition-all duration-200"
                 style={{
                   width: cubeW,
                   height: cubeH,
                   background: isFilled
-                    ? "linear-gradient(135deg, hsl(var(--primary) / 0.35), hsl(var(--primary) / 0.2))"
-                    : "linear-gradient(135deg, hsl(var(--secondary) / 0.6), hsl(var(--secondary) / 0.35))",
+                    ? "linear-gradient(135deg, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.22))"
+                    : "linear-gradient(135deg, hsl(var(--secondary) / 0.7), hsl(var(--secondary) / 0.4))",
                   border: `1.5px solid ${isFilled ? "hsl(var(--primary) / 0.5)" : "hsl(var(--border) / 0.5)"}`,
-                  boxShadow: isFilled ? "inset 0 1px 4px hsl(var(--primary) / 0.15)" : "none",
+                  boxShadow: isFilled
+                    ? "inset 0 1px 6px hsl(var(--primary) / 0.15), 0 -2px 8px hsl(var(--primary) / 0.06)"
+                    : "inset 0 1px 3px hsl(var(--secondary) / 0.1)",
                 }}
               >
                 {isFilled && (
-                  <Package size={14} className="absolute inset-0 m-auto text-primary/50" />
+                  <Package size={18} className="absolute inset-0 m-auto text-primary/50" />
                 )}
               </div>
               {/* Front face */}
               <div
-                className="absolute left-0 rounded-b-sm transition-all duration-200"
+                className="absolute left-0 rounded-b transition-all duration-200"
                 style={{
                   top: cubeH - 1,
                   width: cubeW,
                   height: cubeD,
                   background: isFilled
-                    ? "linear-gradient(180deg, hsl(var(--primary) / 0.22), hsl(var(--primary) / 0.12))"
-                    : "linear-gradient(180deg, hsl(var(--secondary) / 0.4), hsl(var(--secondary) / 0.2))",
-                  border: `1.5px solid ${isFilled ? "hsl(var(--primary) / 0.35)" : "hsl(var(--border) / 0.35)"}`,
+                    ? "linear-gradient(180deg, hsl(var(--primary) / 0.28), hsl(var(--primary) / 0.1))"
+                    : "linear-gradient(180deg, hsl(var(--secondary) / 0.5), hsl(var(--secondary) / 0.2))",
+                  border: `1.5px solid ${isFilled ? "hsl(var(--primary) / 0.3)" : "hsl(var(--border) / 0.3)"}`,
                   borderTop: "none",
                 }}
               />
