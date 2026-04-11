@@ -145,7 +145,7 @@ export function CampaignDialog({
             {/* Price info */}
             <div className="grid grid-cols-2 gap-3 mb-5">
               <div className="bg-secondary/30 rounded-lg p-3 text-center">
-                <p className="text-[11px] text-muted-foreground mb-0.5">Deposit / unit</p>
+                <p className="text-[11px] text-muted-foreground mb-0.5">50% deposit / unit</p>
                 <p className="text-lg font-bold text-primary">
                   {campaign.deposit_amount.toLocaleString()} {campaign.currency}
                 </p>
@@ -242,12 +242,12 @@ export function CampaignDialog({
                   className="w-full bg-primary text-primary-foreground py-2.5 rounded-lg font-semibold text-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {submitting
-                    ? "Signing up..."
+                    ? "Joining..."
                     : campaign.status !== "active"
                       ? "Campaign closed"
                       : spotsLeft <= 0
                         ? "Campaign full"
-                        : "Join Interest List"}
+                        : "Join Waitlist — No Payment Now"}
                 </button>
               </form>
             )}

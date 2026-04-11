@@ -88,7 +88,7 @@ function GroupOrdersPage() {
           {[
             { icon: Shield, label: "Secure deposits", sub: "Registered Icelandic company" },
             { icon: RotateCcw, label: "Full refund", sub: "If target isn't reached" },
-            { icon: CreditCard, label: "Small deposit", sub: "Deducted from final price" },
+            { icon: CreditCard, label: "50/50 payment", sub: "Half upfront, half at pickup" },
           ].map((badge) => (
             <div key={badge.label} className="bg-card border border-border/60 rounded-xl p-4 text-center">
               <badge.icon size={18} className="mx-auto mb-2 text-primary" />
