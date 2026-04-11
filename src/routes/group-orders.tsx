@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, Clock, ArrowRight, Shield, CreditCard, RotateCcw, Link2 } from "lucide-react";
+import { Users, Clock, ArrowRight, Shield, CreditCard, RotateCcw } from "lucide-react";
 import winterTiresImg from "@/assets/winter-tires-container.jpg";
 
 type Campaign = {
@@ -24,9 +24,9 @@ type Campaign = {
 export const Route = createFileRoute("/group-orders")({
   head: () => ({
     meta: [
-      { title: "Group Orders — MAS Logistics" },
+      { title: "Bulk Deals — MAS Logistics" },
       { name: "description", content: "Join group orders to save on bulk shipping from Europe to Iceland. Container shipments with small deposits." },
-      { property: "og:title", content: "Group Orders — MAS Logistics" },
+      { property: "og:title", content: "Bulk Deals — MAS Logistics" },
       { property: "og:description", content: "Join group orders to save on bulk shipping from Europe to Iceland." },
     ],
   }),
@@ -51,25 +51,20 @@ function GroupOrdersPage() {
   }, []);
 
   return (
-    <div className="min-h-screen pt-28 pb-16 px-4">
-      <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen pt-24 pb-16 px-6">
+      <div className="max-w-[640px] mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
+          className="text-center mb-10"
         >
-          <div className="inline-flex items-center gap-2 bg-secondary rounded-full px-4 py-1.5 mb-6">
-            <span className="text-primary text-xs">●</span>
-            <span className="text-xs tracking-wider text-muted-foreground">
-              BULK PURCHASING • SAVE ON FREIGHT
-            </span>
-          </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-4">
-            GROUP <span className="text-primary">ORDERS</span>
+          <p className="text-xs text-primary tracking-widest mb-4">BULK PURCHASING</p>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+            Bulk <span className="text-primary">Deals</span>
           </h1>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            We organize container shipments for specific products. Reserve your spot with a small deposit — when enough people join, we ship the container and everyone saves.
+          <p className="text-muted-foreground text-sm max-w-md mx-auto leading-relaxed">
+            We organize container shipments for specific products. Reserve your spot with a small deposit — when enough people join, we ship and everyone saves.
           </p>
         </motion.div>
 
@@ -78,51 +73,41 @@ function GroupOrdersPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="grid sm:grid-cols-3 gap-4 mb-12"
+          className="grid grid-cols-3 gap-3 mb-12"
         >
-          <div className="bg-card border border-border rounded-xl p-4 flex items-center gap-3">
-            <Shield size={20} className="text-hub-green shrink-0" />
-            <div>
-              <p className="text-sm font-semibold">Secure Deposits</p>
-              <p className="text-xs text-muted-foreground">Mountain All Service ehf. (KT visible)</p>
+          {[
+            { icon: Shield, label: "Secure deposits", sub: "Mountain All Service ehf." },
+            { icon: RotateCcw, label: "Full refund", sub: "If target not reached" },
+            { icon: CreditCard, label: "Small deposit", sub: "Deducted from final price" },
+          ].map((badge) => (
+            <div key={badge.label} className="bg-card border border-border/60 rounded-xl p-4 text-center">
+              <badge.icon size={18} className="mx-auto mb-2 text-primary" />
+              <p className="text-xs font-medium">{badge.label}</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">{badge.sub}</p>
             </div>
-          </div>
-          <div className="bg-card border border-border rounded-xl p-4 flex items-center gap-3">
-            <RotateCcw size={20} className="text-primary shrink-0" />
-            <div>
-              <p className="text-sm font-semibold">Full Refund Guarantee</p>
-              <p className="text-xs text-muted-foreground">If container doesn't reach target</p>
-            </div>
-          </div>
-          <div className="bg-card border border-border rounded-xl p-4 flex items-center gap-3">
-            <CreditCard size={20} className="text-hub-amber shrink-0" />
-            <div>
-              <p className="text-sm font-semibold">Small Deposit</p>
-              <p className="text-xs text-muted-foreground">Deposit deducted from final price</p>
-            </div>
-          </div>
+          ))}
         </motion.div>
 
         {/* Campaigns */}
         {loading ? (
-          <div className="text-center py-20 text-muted-foreground">Loading campaigns...</div>
+          <div className="text-center py-20 text-muted-foreground text-sm">Loading campaigns...</div>
         ) : campaigns.length === 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="bg-card border border-border rounded-xl p-12 text-center"
+            className="bg-card border border-border/60 rounded-xl p-12 text-center"
           >
-            <div className="text-5xl mb-4">📦</div>
-            <h2 className="text-xl font-bold mb-2">No Active Campaigns</h2>
-            <p className="text-muted-foreground mb-6">
-              We're planning our next group order. Check back soon or contact us to suggest products!
+            <div className="text-4xl mb-4">📦</div>
+            <h2 className="text-lg font-semibold mb-2">No active campaigns</h2>
+            <p className="text-sm text-muted-foreground mb-6">
+              We're planning our next group order. Check back soon or use our import service!
             </p>
-            <Link to="/import" className="bg-primary text-primary-foreground px-6 py-3 rounded-md font-semibold inline-flex items-center gap-2 hover:bg-primary/90">
-              Use Our Import Service <ArrowRight size={18} />
+            <Link to="/import" className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">
+              Import Service <ArrowRight size={14} />
             </Link>
           </motion.div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-4">
             {campaigns.map((campaign, i) => (
               <CampaignCard key={campaign.id} campaign={campaign} index={i} />
             ))}
@@ -136,47 +121,43 @@ function GroupOrdersPage() {
           viewport={{ once: true }}
           className="mt-20"
         >
-          <h2 className="text-2xl font-black tracking-tight mb-8 text-center">
-            HOW GROUP ORDERS <span className="text-primary">WORK</span>
+          <h2 className="text-xl font-bold tracking-tight mb-8 text-center">
+            How it <span className="text-primary">works</span>
           </h2>
-          <div className="grid sm:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
             {[
-              { num: "01", title: "We Post a Campaign", desc: "We identify a product with demand and set a target number of orders." },
-              { num: "02", title: "You Reserve Your Spot", desc: "Pay a small deposit to secure your place. Deposit is deducted from final price." },
-              { num: "03", title: "Target Reached", desc: "When enough people join, we order the container. If not — full refund." },
-              { num: "04", title: "Delivery", desc: "Container arrives in Iceland. You pay the remainder and receive your goods + VAT invoice." },
+              { num: "1", title: "We post a campaign", desc: "We find a product with demand and set a target." },
+              { num: "2", title: "You reserve a spot", desc: "Small deposit to secure your place." },
+              { num: "3", title: "Target reached", desc: "We order. If not — full refund." },
+              { num: "4", title: "Delivery", desc: "Pay remainder, receive goods + VAT invoice." },
             ].map((step) => (
-              <div key={step.num} className="relative">
-                <span className="text-5xl font-black text-primary/15 absolute -top-1 -left-1">{step.num}</span>
-                <div className="pt-10">
-                  <h3 className="font-bold text-sm mb-1">{step.title}</h3>
-                  <p className="text-xs text-muted-foreground">{step.desc}</p>
+              <div key={step.num} className="text-center">
+                <div className="w-8 h-8 rounded-full bg-primary/10 text-primary text-sm font-bold flex items-center justify-center mx-auto mb-3">
+                  {step.num}
                 </div>
+                <h3 className="text-xs font-semibold mb-1">{step.title}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">{step.desc}</p>
               </div>
             ))}
           </div>
         </motion.div>
 
-        {/* Cross-sell to import service */}
+        {/* Cross-sell */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-20 bg-secondary/50 border border-border rounded-xl p-8 sm:p-12 text-center"
+          className="mt-20 bg-card border border-border/60 rounded-xl p-8 text-center"
         >
-          <Link2 size={32} className="mx-auto mb-4 text-primary" />
-          <h2 className="text-2xl font-black tracking-tight mb-2">
-            NEED SOMETHING SPECIFIC?
-          </h2>
-          <p className="text-muted-foreground text-sm max-w-lg mx-auto mb-6">
-            Can't find what you need in our bulk deals? Send us a link from any European store — 
-            we'll buy it, ship it, and deliver it to you.
+          <h2 className="text-lg font-bold mb-2">Need something specific?</h2>
+          <p className="text-sm text-muted-foreground max-w-md mx-auto mb-5">
+            Send us a link from any European store — we'll buy it, ship it, and deliver it to you.
           </p>
           <Link
             to="/import"
-            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-md font-bold text-sm tracking-wider hover:bg-primary/90 transition-colors"
+            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors"
           >
-            USE IMPORT SERVICE <ArrowRight size={16} />
+            Import Service <ArrowRight size={14} />
           </Link>
         </motion.div>
       </div>
@@ -197,71 +178,62 @@ function CampaignCard({ campaign, index }: { campaign: Campaign; index: number }
       <Link
         to="/group-orders/$campaignId"
         params={{ campaignId: campaign.id }}
-        className="block bg-card border border-border rounded-xl overflow-hidden hover:border-primary/40 transition-colors group"
+        className="block bg-card border border-border/60 rounded-xl overflow-hidden hover:border-primary/30 transition-colors group"
       >
-        <div className="p-6 sm:p-8">
-          <div className="flex flex-col sm:flex-row sm:items-start gap-6">
-            {/* Image */}
-            <div className="w-full sm:w-48 h-48 sm:h-40 rounded-lg bg-secondary overflow-hidden shrink-0">
-              <img
-                src={campaign.image_url || winterTiresImg}
-                alt={campaign.title}
-                loading="lazy"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
+        <div className="flex gap-4 p-5">
+          {/* Image */}
+          <div className="w-24 h-24 rounded-lg bg-secondary overflow-hidden shrink-0">
+            <img
+              src={campaign.image_url || winterTiresImg}
+              alt={campaign.title}
+              loading="lazy"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+
+          {/* Content */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-start justify-between gap-2">
+              <h3 className="font-semibold text-sm group-hover:text-primary transition-colors">
+                {campaign.title}
+              </h3>
+              <ArrowRight size={14} className="text-muted-foreground group-hover:text-primary transition-colors shrink-0 mt-0.5" />
             </div>
 
-            {/* Content */}
-            <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
-                    {campaign.title}
-                  </h3>
-                  {campaign.description && (
-                    <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
-                      {campaign.description}
-                    </p>
-                  )}
-                </div>
-                <ArrowRight size={20} className="text-muted-foreground group-hover:text-primary transition-colors shrink-0 mt-1" />
-              </div>
+            {campaign.description && (
+              <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{campaign.description}</p>
+            )}
 
-              {/* Progress bar */}
-              <div className="mt-5">
-                <div className="flex items-center justify-between text-sm mb-2">
-                  <span className="flex items-center gap-1.5">
-                    <Users size={14} className="text-primary" />
-                    <span className="font-semibold">{campaign.current_slots}</span>
-                    <span className="text-muted-foreground">/ {campaign.target_slots} spots</span>
-                  </span>
-                  <span className="text-muted-foreground flex items-center gap-1">
-                    <Clock size={14} />
-                    {spotsLeft} left
-                  </span>
-                </div>
-                <div className="h-2.5 bg-secondary rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-500"
-                    style={{
-                      width: `${progress}%`,
-                      background: progress >= 80 ? 'var(--hub-green)' : 'var(--primary)',
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Meta */}
-              <div className="flex flex-wrap items-center gap-4 mt-4 text-sm">
-                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full font-semibold">
-                  Deposit: {campaign.deposit_amount.toLocaleString()} {campaign.currency}
+            {/* Progress */}
+            <div className="mt-3">
+              <div className="flex items-center justify-between text-xs mb-1.5">
+                <span className="flex items-center gap-1">
+                  <Users size={12} className="text-primary" />
+                  <span className="font-medium">{campaign.current_slots}</span>
+                  <span className="text-muted-foreground">/ {campaign.target_slots}</span>
                 </span>
-                {campaign.unit_price_estimate && (
-                  <span className="text-muted-foreground">
-                    Est. unit price: {campaign.unit_price_estimate.toLocaleString()} {campaign.currency}
-                  </span>
-                )}
+                <span className="text-muted-foreground">{spotsLeft} left</span>
               </div>
+              <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all duration-500"
+                  style={{
+                    width: `${progress}%`,
+                    background: progress >= 80 ? 'var(--hub-green)' : 'var(--primary)',
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 mt-2 text-xs">
+              <span className="text-primary font-medium">
+                Deposit: {campaign.deposit_amount.toLocaleString()} {campaign.currency}
+              </span>
+              {campaign.unit_price_estimate && (
+                <span className="text-muted-foreground">
+                  ~{campaign.unit_price_estimate.toLocaleString()} {campaign.currency}/unit
+                </span>
+              )}
             </div>
           </div>
         </div>

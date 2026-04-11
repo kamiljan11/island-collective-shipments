@@ -19,50 +19,45 @@ export const Route = createFileRoute("/import")({
 });
 
 const steps = [
-  { icon: Link2, title: "Send us a link or description", desc: "Paste a product URL from any European store — or just tell us what you need." },
-  { icon: MessageSquare, title: "We quote you", desc: "Product cost + shipping + our service fee. No surprises, no hidden charges." },
-  { icon: ShoppingCart, title: "We buy & ship", desc: "We purchase, receive at our Poland hub, and ship by container to Iceland." },
-  { icon: FileCheck, title: "You receive it", desc: "Delivered to your door with a valid Icelandic VAT invoice for your bookkeeping." },
+  { icon: Link2, title: "Send us a link", desc: "Paste a product URL from any European store — or describe what you need." },
+  { icon: MessageSquare, title: "We quote you", desc: "Product cost + shipping + service fee. No hidden charges." },
+  { icon: ShoppingCart, title: "We buy & ship", desc: "We purchase, receive at our hub, and ship to Iceland." },
+  { icon: FileCheck, title: "You receive it", desc: "Delivered with a valid Icelandic VAT invoice." },
 ];
 
 const faqs = [
-  { q: "WHAT STORES CAN YOU BUY FROM?", a: "Any European online or physical store — Amazon.de, Zalando, specialist retailers, industrial suppliers, you name it. If they sell it in Europe, we can get it." },
-  { q: "HOW MUCH DO YOU CHARGE?", a: "We quote each order individually: product cost + shipping + a transparent service fee. No hidden charges. You approve the full price before we buy anything." },
-  { q: "HOW LONG DOES IT TAKE?", a: "Standard container shipping takes about 14 days. For urgent items, we offer air freight in 3-5 days." },
-  { q: "DO I GET A VAT INVOICE?", a: "Yes — businesses receive a valid Icelandic VAT invoice from Mountain All Service ehf, simplifying your bookkeeping and VAT reclamation." },
-  { q: "WHAT IF THE STORE DOESN'T SHIP TO ICELAND?", a: "That's exactly why we exist. We buy using our European address and handle all the forwarding, customs, and delivery to Iceland." },
+  { q: "What stores can you buy from?", a: "Any European online or physical store — Amazon.de, Zalando, specialist retailers, industrial suppliers. If they sell it in Europe, we can get it." },
+  { q: "How much do you charge?", a: "We quote each order individually: product cost + shipping + a transparent service fee. No hidden charges. You approve the full price before we buy." },
+  { q: "How long does it take?", a: "Standard container shipping takes about 14 days. For urgent items, we offer air freight in 3-5 days." },
+  { q: "Do I get a VAT invoice?", a: "Yes — businesses receive a valid Icelandic VAT invoice from Mountain All Service ehf, simplifying your bookkeeping and VAT reclamation." },
+  { q: "What if the store doesn't ship to Iceland?", a: "That's exactly why we exist. We buy using our European address and handle all the forwarding, customs, and delivery." },
 ];
 
 function ImportPage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="pt-32 pb-16 px-4">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="pt-28 pb-12 px-6">
+        <div className="max-w-[640px] mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <div className="inline-flex items-center gap-2 bg-secondary rounded-full px-4 py-1.5 mb-6">
-              <span className="text-primary text-xs">●</span>
-              <span className="text-xs tracking-wider text-muted-foreground">
-                PERSONAL IMPORT SERVICE
-              </span>
-            </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-4">
-              SEND US A LINK.
+            <p className="text-xs text-primary tracking-widest mb-4">IMPORT SERVICE</p>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+              Send us a link.
               <br />
-              <span className="text-primary">WE HANDLE THE REST.</span>
+              <span className="text-primary">We handle the rest.</span>
             </h1>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
+            <p className="text-muted-foreground text-sm max-w-md mx-auto leading-relaxed">
               Found a product in a European store that doesn't ship to Iceland? 
-              Or need us to find something specific? We buy it, ship it, and deliver it to you.
+              We buy it, ship it, and deliver it to you.
             </p>
           </motion.div>
         </div>
       </section>
 
       {/* Steps */}
-      <section className="pb-20 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <section className="pb-16 px-6">
+        <div className="max-w-[640px] mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
             {steps.map((step, i) => (
               <motion.div
                 key={step.title}
@@ -71,10 +66,10 @@ function ImportPage() {
                 transition={{ delay: 0.2 + i * 0.1 }}
                 className="text-center"
               >
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary mb-3">
-                  <step.icon size={20} />
+                <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary mb-3">
+                  <step.icon size={18} />
                 </div>
-                <h3 className="text-xs font-bold tracking-wider uppercase mb-1">{step.title}</h3>
+                <h3 className="text-xs font-semibold mb-1">{step.title}</h3>
                 <p className="text-xs text-muted-foreground leading-relaxed">{step.desc}</p>
               </motion.div>
             ))}
@@ -83,15 +78,15 @@ function ImportPage() {
       </section>
 
       {/* Quote Form */}
-      <section className="py-20 px-4 bg-secondary/30 border-t border-border">
-        <div className="max-w-2xl mx-auto">
+      <section className="py-16 px-6 border-t border-border/30">
+        <div className="max-w-lg mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-2xl font-black tracking-tight text-center mb-8">
-              GET A <span className="text-primary">QUOTE</span>
+            <h2 className="text-xl font-bold tracking-tight text-center mb-8">
+              Get a <span className="text-primary">quote</span>
             </h2>
             <ImportForm />
           </motion.div>
@@ -99,17 +94,17 @@ function ImportPage() {
       </section>
 
       {/* FAQ */}
-      <section className="py-20 px-4">
-        <div className="max-w-3xl mx-auto">
+      <section className="py-16 px-6">
+        <div className="max-w-lg mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl font-black tracking-tight mb-10 text-center"
+            className="text-xl font-bold tracking-tight mb-8 text-center"
           >
-            IMPORT <span className="text-primary">FAQ</span>
+            Import <span className="text-primary">FAQ</span>
           </motion.h2>
-          <div className="space-y-3">
+          <div className="space-y-2">
             {faqs.map((faq, i) => (
               <FaqItem key={i} q={faq.q} a={faq.a} />
             ))}
@@ -118,26 +113,22 @@ function ImportPage() {
       </section>
 
       {/* Cross-sell */}
-      <section className="py-16 px-4 bg-secondary/30 border-t border-border">
-        <div className="max-w-3xl mx-auto text-center">
+      <section className="py-16 px-6 border-t border-border/30">
+        <div className="max-w-lg mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <Package size={32} className="mx-auto mb-4 text-primary" />
-            <h2 className="text-2xl font-black tracking-tight mb-2">
-              WANT EVEN BIGGER SAVINGS?
-            </h2>
-            <p className="text-muted-foreground text-sm max-w-lg mx-auto mb-6">
-              Check our group bulk deals — we pool orders from multiple buyers, fill a container, 
-              and everyone saves up to 40% on freight and product costs.
+            <h2 className="text-lg font-bold mb-2">Want even bigger savings?</h2>
+            <p className="text-sm text-muted-foreground max-w-sm mx-auto mb-5">
+              Check our bulk deals — we pool orders, fill a container, and everyone saves up to 40%.
             </p>
             <Link
               to="/group-orders"
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-md font-bold text-sm tracking-wider hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors"
             >
-              VIEW BULK DEALS <ArrowRight size={16} />
+              View Bulk Deals <ArrowRight size={14} />
             </Link>
           </motion.div>
         </div>
@@ -149,16 +140,16 @@ function ImportPage() {
 function FaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="bg-card border border-border rounded-xl px-6 overflow-hidden">
+    <div className="bg-card border border-border/60 rounded-xl px-5 overflow-hidden">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full text-left py-5 text-sm font-semibold tracking-wider flex items-center justify-between"
+        className="w-full text-left py-4 text-sm font-medium flex items-center justify-between"
       >
         {q}
-        <span className="text-muted-foreground text-lg">{open ? "−" : "+"}</span>
+        <span className="text-muted-foreground text-lg ml-4">{open ? "−" : "+"}</span>
       </button>
       {open && (
-        <p className="text-sm text-muted-foreground pb-5">{a}</p>
+        <p className="text-sm text-muted-foreground pb-4">{a}</p>
       )}
     </div>
   );
@@ -204,21 +195,23 @@ function ImportForm() {
 
   if (submitted) {
     return (
-      <div className="bg-card border border-border rounded-xl p-12 text-center">
-        <div className="text-5xl mb-4">✅</div>
-        <h3 className="text-2xl font-bold mb-2">Request Sent!</h3>
-        <p className="text-muted-foreground">
-          We'll get back to you within 24 hours with a full quote — product price, shipping, and our fee.
+      <div className="bg-card border border-border/60 rounded-xl p-10 text-center">
+        <div className="text-4xl mb-4">✅</div>
+        <h3 className="text-lg font-semibold mb-2">Request sent!</h3>
+        <p className="text-sm text-muted-foreground">
+          We'll get back to you within 24 hours with a full quote.
         </p>
       </div>
     );
   }
 
+  const inputClasses = "w-full bg-secondary/50 border border-border/60 rounded-lg px-4 py-3 text-sm placeholder:text-muted-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/40 transition-colors";
+
   return (
-    <div className="bg-card border border-border rounded-xl p-6 sm:p-10">
-      <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="bg-card border border-border/60 rounded-xl p-6 sm:p-8">
+      <form onSubmit={handleSubmit} className="space-y-5">
         {error && (
-          <div className="bg-destructive/10 border border-destructive/30 rounded-md p-3 text-sm text-destructive">
+          <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-3 text-sm text-destructive">
             {error}
           </div>
         )}
@@ -228,96 +221,94 @@ function ImportForm() {
           <button
             type="button"
             onClick={() => setFormType("links")}
-            className={`py-3 text-sm font-bold tracking-wider transition-colors rounded-l-md flex items-center justify-center gap-2 ${formType === "links" ? "bg-foreground text-background" : "bg-secondary text-muted-foreground"}`}
+            className={`py-2.5 text-sm font-medium transition-colors rounded-l-lg flex items-center justify-center gap-2 ${formType === "links" ? "bg-foreground text-background" : "bg-secondary/50 text-muted-foreground"}`}
           >
-            <Link2 size={14} /> I HAVE A LINK
+            <Link2 size={14} /> I have a link
           </button>
           <button
             type="button"
             onClick={() => setFormType("sourcing")}
-            className={`py-3 text-sm font-bold tracking-wider transition-colors rounded-r-md flex items-center justify-center gap-2 ${formType === "sourcing" ? "bg-foreground text-background" : "bg-secondary text-muted-foreground"}`}
+            className={`py-2.5 text-sm font-medium transition-colors rounded-r-lg flex items-center justify-center gap-2 ${formType === "sourcing" ? "bg-foreground text-background" : "bg-secondary/50 text-muted-foreground"}`}
           >
-            <Search size={14} /> FIND IT FOR ME
+            <Search size={14} /> Find it for me
           </button>
         </div>
 
         {/* Main input */}
         <div>
-          <label className="text-xs font-bold tracking-widest text-muted-foreground block mb-1.5">
-            {formType === "links" ? "PRODUCT LINK *" : "WHAT DO YOU NEED? *"}
+          <label className="text-xs font-medium text-muted-foreground block mb-1.5">
+            {formType === "links" ? "Product link *" : "What do you need? *"}
           </label>
           <textarea
             name="content"
             required
-            className="w-full bg-secondary border border-border rounded-md px-4 py-3 text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/50 min-h-[100px] resize-y"
-            placeholder={formType === "links" ? "Paste the product URL here — e.g. amazon.de/dp/..." : "Describe the product — brand, model, specs, quantity..."}
+            className={`${inputClasses} min-h-[100px] resize-y`}
+            placeholder={formType === "links" ? "Paste the product URL here..." : "Describe the product — brand, model, specs, quantity..."}
           />
         </div>
 
         {/* Shipping speed */}
         <div>
-          <label className="text-xs font-bold tracking-widest text-muted-foreground block mb-2">
-            SHIPPING SPEED
-          </label>
+          <label className="text-xs font-medium text-muted-foreground block mb-2">Shipping speed</label>
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => setPriority("standard")}
-              className={`px-4 py-4 rounded-md text-sm transition-colors border-2 ${priority === "standard" ? "border-foreground bg-card" : "border-border text-muted-foreground"}`}
+              className={`px-4 py-3 rounded-lg text-sm transition-colors border ${priority === "standard" ? "border-foreground/30 bg-card" : "border-border/60 text-muted-foreground"}`}
             >
-              <span className="font-bold block">CONTAINER</span>
-              <span className="text-xs text-muted-foreground">~14 DAYS</span>
+              <span className="font-medium block">Container</span>
+              <span className="text-xs text-muted-foreground">~14 days</span>
             </button>
             <button
               type="button"
               onClick={() => setPriority("urgent")}
-              className={`px-4 py-4 rounded-md text-sm transition-colors border-2 ${priority === "urgent" ? "border-primary bg-card" : "border-border text-muted-foreground"}`}
+              className={`px-4 py-3 rounded-lg text-sm transition-colors border ${priority === "urgent" ? "border-primary/40 bg-card" : "border-border/60 text-muted-foreground"}`}
             >
-              <span className="font-bold block text-primary">AIR FREIGHT</span>
-              <span className="text-xs text-muted-foreground">3-5 DAYS</span>
+              <span className="font-medium block text-primary">Air freight</span>
+              <span className="text-xs text-muted-foreground">3-5 days</span>
             </button>
           </div>
         </div>
 
         {/* Optional details */}
-        <div className="grid sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-xs font-bold tracking-widest text-muted-foreground block mb-1.5">EST. VALUE</label>
-            <input name="estimated_value" className="w-full bg-secondary border border-border rounded-md px-4 py-3 text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/50" placeholder="e.g. 2,000 EUR" />
+            <label className="text-xs font-medium text-muted-foreground block mb-1.5">Est. value</label>
+            <input name="estimated_value" className={inputClasses} placeholder="e.g. 2,000 EUR" />
           </div>
           <div>
-            <label className="text-xs font-bold tracking-widest text-muted-foreground block mb-1.5">WEIGHT / SIZE</label>
-            <input name="weight_info" className="w-full bg-secondary border border-border rounded-md px-4 py-3 text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/50" placeholder="e.g. 2 pallets, 500 kg" />
+            <label className="text-xs font-medium text-muted-foreground block mb-1.5">Weight / size</label>
+            <input name="weight_info" className={inputClasses} placeholder="e.g. 500 kg" />
           </div>
         </div>
 
         {/* Contact info */}
-        <div className="grid sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-xs font-bold tracking-widest text-muted-foreground block mb-1.5">YOUR NAME / COMPANY *</label>
-            <input name="company_name" required className="w-full bg-secondary border border-border rounded-md px-4 py-3 text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/50" />
+            <label className="text-xs font-medium text-muted-foreground block mb-1.5">Name / company *</label>
+            <input name="company_name" required className={inputClasses} />
           </div>
           <div>
-            <label className="text-xs font-bold tracking-widest text-muted-foreground block mb-1.5">KENNITALA <span className="text-muted-foreground/50">(for VAT invoice)</span></label>
-            <input name="kennitala" className="w-full bg-secondary border border-border rounded-md px-4 py-3 text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/50" placeholder="Optional" />
+            <label className="text-xs font-medium text-muted-foreground block mb-1.5">Kennitala <span className="text-muted-foreground/50">(optional)</span></label>
+            <input name="kennitala" className={inputClasses} placeholder="For VAT invoice" />
           </div>
         </div>
 
         <div>
-          <label className="text-xs font-bold tracking-widest text-muted-foreground block mb-1.5">EMAIL *</label>
-          <input name="email" type="email" required className="w-full bg-secondary border border-border rounded-md px-4 py-3 text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/50" placeholder="your@email.is" />
+          <label className="text-xs font-medium text-muted-foreground block mb-1.5">Email *</label>
+          <input name="email" type="email" required className={inputClasses} placeholder="your@email.is" />
         </div>
 
         <button
           type="submit"
           disabled={submitting}
-          className="w-full bg-primary text-primary-foreground py-4 rounded-md font-bold text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors disabled:opacity-50"
+          className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold text-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
         >
-          {submitting ? "SENDING..." : "GET A QUOTE"}
+          {submitting ? "Sending..." : "Get a Quote"}
         </button>
 
         <p className="text-xs text-muted-foreground text-center">
-          We'll reply within 24 hours with a full breakdown: product cost + shipping + service fee.
+          We'll reply within 24 hours with a full breakdown.
         </p>
       </form>
     </div>
