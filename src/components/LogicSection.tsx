@@ -3,6 +3,7 @@ import { CheckCircle, XCircle } from "lucide-react";
 
 const comparisonRows = [
   { factor: "Document Type", standard: "Mixed Foreign Receipt", mas: "Local VAT Invoice" },
+  { factor: "Customs Clearance", standard: "You Handle It", mas: "Fully Managed" },
   { factor: "Handling", standard: "Internal Headache", mas: "Fully Outsourced" },
   { factor: "Landed Cost", standard: "Unpredictable", mas: "Fixed Upfront" },
   { factor: "Consolidation", standard: "No", mas: "Multi-Supplier" },
@@ -33,8 +34,10 @@ export function LogicSection() {
             <div className="border-l-4 border-hub-green pl-6">
               <h3 className="text-xl font-bold mb-2">THE SOLUTION.</h3>
               <p className="text-muted-foreground">
-                We buy locally in Europe, handle the export/import logistics, and resell to you in Iceland. You get your goods plus a clean{" "}
-                <span className="text-foreground font-semibold">local VAT Invoice</span>.
+                We buy locally in Europe, handle all{" "}
+                <span className="text-foreground font-semibold">customs clearance</span>,
+                export/import logistics, and resell to you in Iceland. You get your goods plus a clean{" "}
+                <span className="text-foreground font-semibold">Icelandic VAT Invoice</span> — zero paperwork on your end.
               </p>
             </div>
           </div>
