@@ -69,107 +69,7 @@ function SharedPalletPage() {
           </div>
 
           {/* 3D isometric pallet */}
-          <div className="flex justify-center mb-6">
-            <div
-              className="relative"
-              style={{
-                transform: "rotateX(55deg) rotateZ(-45deg)",
-                transformStyle: "preserve-3d",
-                width: 240,
-                height: 240,
-              }}
-            >
-              {/* Pallet base */}
-              <div
-                className="absolute rounded-sm"
-                style={{
-                  width: 240,
-                  height: 240,
-                  background: "hsl(var(--secondary) / 0.5)",
-                  border: "1px solid hsl(var(--border) / 0.4)",
-                  transform: "translateZ(-4px)",
-                }}
-              />
-              {/* Cubes: 4 layers of 6 (3×2 per layer) */}
-              {Array.from({ length: TOTAL_CUBES }).map((_, i) => {
-                const layer = Math.floor(i / 6);
-                const posInLayer = i % 6;
-                const col = posInLayer % 3;
-                const row = Math.floor(posInLayer / 3);
-                const isFilled = i < hoveredCubes;
-                const cubeSize = 72;
-                const gap = 6;
-
-                return (
-                  <motion.button
-                    key={i}
-                    onClick={() => setHoveredCubes(i + 1)}
-                    className="absolute"
-                    style={{
-                      width: cubeSize,
-                      height: cubeSize,
-                      left: col * (cubeSize + gap) + 9,
-                      top: row * (cubeSize + gap) + 9,
-                      transform: `translateZ(${layer * (cubeSize * 0.45)}px)`,
-                      transformStyle: "preserve-3d",
-                      zIndex: layer * 10 + posInLayer,
-                    }}
-                    whileHover={{ scale: 1.06 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {/* Top face */}
-                    <div
-                      className={`absolute inset-0 rounded-sm border-2 transition-all duration-200 ${
-                        isFilled
-                          ? "bg-primary/25 border-primary/50"
-                          : "bg-secondary/40 border-border/40"
-                      }`}
-                    >
-                      {isFilled && (
-                        <Package size={16} className="absolute inset-0 m-auto text-primary/60" />
-                      )}
-                    </div>
-                    {/* Right face */}
-                    <div
-                      className={`absolute transition-all duration-200 ${
-                        isFilled
-                          ? "bg-primary/15 border-primary/40"
-                          : "bg-secondary/25 border-border/30"
-                      }`}
-                      style={{
-                        width: cubeSize,
-                        height: cubeSize * 0.45,
-                        bottom: -(cubeSize * 0.45),
-                        left: 0,
-                        transform: "rotateX(90deg)",
-                        transformOrigin: "top",
-                        borderWidth: 1,
-                        borderRadius: 2,
-                      }}
-                    />
-                    {/* Left face */}
-                    <div
-                      className={`absolute transition-all duration-200 ${
-                        isFilled
-                          ? "bg-primary/18 border-primary/35"
-                          : "bg-secondary/30 border-border/25"
-                      }`}
-                      style={{
-                        width: cubeSize * 0.45,
-                        height: cubeSize,
-                        top: 0,
-                        right: -(cubeSize * 0.45),
-                        transform: "rotateY(-90deg)",
-                        transformOrigin: "left",
-                        borderWidth: 1,
-                        borderRadius: 2,
-                      }}
-                    />
-                  </motion.button>
-                );
-              })}
-            </div>
-          </div>
+          <PalletVisualization hoveredCubes={hoveredCubes} onCubeClick={setHoveredCubes} />
 
           {/* Price display */}
           <div className="bg-secondary/30 rounded-lg p-4 text-center">
@@ -279,6 +179,84 @@ function SharedPalletPage() {
           </div>
         </motion.div>
       </div>
+    </div>
+  );
+}
+
+/* ── Isometric pallet drawn with 2-D offsets (no CSS 3D) ── */
+function PalletVisualization({
+  hoveredCubes,
+  onCubeClick,
+}: {
+  hoveredCubes: number;
+  onCubeClick: (n: number) => void;
+}) {
+  return (
+    <div className="flex flex-col items-center mb-6">
+      {[3, 2, 1, 0].map((layer) => (
+        <div
+          key={layer}
+          className="grid grid-cols-3 gap-1.5"
+          style={{ marginTop: layer < 3 ? -6 : 0, position: "relative", zIndex: 4 - layer }}
+        >
+          {[0, 1].map((row) =>
+            [0, 1, 2].map((col) => {
+              const cubeIndex = layer * 6 + row * 3 + col;
+              const isFilled = cubeIndex < hoveredCubes;
+              return (
+                <motion.button
+                  key={cubeIndex}
+                  onClick={() => onCubeClick(cubeIndex + 1)}
+                  className="flex flex-col"
+                  whileHover={{ y: -3 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <div
+                    className="w-16 h-8 sm:w-20 sm:h-10 rounded-t-sm transition-all duration-200 flex items-center justify-center"
+                    style={{
+                      background: isFilled
+                        ? "linear-gradient(135deg, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.2))"
+                        : "linear-gradient(135deg, hsl(var(--secondary) / 0.6), hsl(var(--secondary) / 0.3))",
+                      borderWidth: 1.5,
+                      borderColor: isFilled ? "hsl(var(--primary) / 0.5)" : "hsl(var(--border) / 0.4)",
+                      borderStyle: "solid",
+                      boxShadow: isFilled ? "inset 0 1px 6px hsl(var(--primary) / 0.12)" : "none",
+                    }}
+                  >
+                    {isFilled && <Package size={14} className="text-primary/50" />}
+                  </div>
+                  <div
+                    className="w-16 h-4 sm:w-20 sm:h-5 rounded-b-sm transition-all duration-200"
+                    style={{
+                      background: isFilled
+                        ? "linear-gradient(180deg, hsl(var(--primary) / 0.25), hsl(var(--primary) / 0.08))"
+                        : "linear-gradient(180deg, hsl(var(--secondary) / 0.4), hsl(var(--secondary) / 0.15))",
+                      borderWidth: 1.5,
+                      borderTop: "none",
+                      borderColor: isFilled ? "hsl(var(--primary) / 0.3)" : "hsl(var(--border) / 0.3)",
+                      borderStyle: "solid",
+                    }}
+                  />
+                </motion.button>
+              );
+            })
+          )}
+        </div>
+      ))}
+      <div
+        className="rounded-md"
+        style={{
+          width: "calc(100% + 8px)",
+          maxWidth: 268,
+          height: 14,
+          marginTop: -2,
+          background: "linear-gradient(180deg, hsl(30 30% 28%), hsl(30 25% 18%))",
+          border: "1px solid hsl(30 20% 15%)",
+          position: "relative",
+          zIndex: 0,
+          boxShadow: "0 4px 12px hsl(var(--primary) / 0.08)",
+        }}
+      />
     </div>
   );
 }
