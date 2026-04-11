@@ -13,20 +13,19 @@ export function HeroSection() {
         <div className="inline-flex items-center gap-2 bg-secondary/60 rounded-full px-4 py-1.5 mb-8 border border-border/50">
           <span className="text-hub-green text-xs">●</span>
           <span className="text-xs tracking-wider text-muted-foreground">
-            EUROPE TO ICELAND • B2B BULK SHIPPING
+            FOR BUSINESSES & INDIVIDUALS IN ICELAND
           </span>
         </div>
 
         <h1 className="text-5xl sm:text-6xl lg:text-[5.5rem] font-black tracking-tight leading-[0.9] mb-6 uppercase">
-          BULK DEALS
+          WE MOVE PRODUCTS
           <br />
-          <span className="text-primary">FROM EUROPE.</span>
+          <span className="text-primary">FROM EUROPE TO ICELAND.</span>
         </h1>
 
         <p className="text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
-          We organize <span className="text-foreground font-semibold">container shipments</span> of popular products from Europe to Iceland.
-          Join a group order, split the freight, and save up to <span className="text-foreground font-semibold">40%</span> compared to local prices.
-          Valid <span className="text-foreground font-semibold">Icelandic VAT invoice</span> included.
+          Whether you need a <span className="text-foreground font-semibold">full container</span>, a <span className="text-foreground font-semibold">single pallet slot</span>, or someone to <span className="text-foreground font-semibold">buy it for you</span> — we handle everything.
+          Customs, delivery, and a valid <span className="text-foreground font-semibold">Icelandic VAT invoice</span> included.
         </p>
 
         <div className="flex flex-wrap gap-3 justify-center">
