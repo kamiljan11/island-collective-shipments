@@ -6,7 +6,7 @@ const faqs = [
   { q: "Why not just buy direct from Europe?", a: "Most European stores won't ship to Iceland, can't handle customs, and don't issue local invoices. We solve all three — and save you money by consolidating shipments." },
   { q: "Can you combine orders from different stores?", a: "Absolutely. We receive goods from multiple EU suppliers at our hub in Poland, repack everything, and ship it as one consolidated shipment to Iceland." },
   { q: "What are the payment terms?", a: "We require payment before purchasing from suppliers. For returning customers, we're happy to discuss flexible arrangements." },
-  { q: "How fast can you deliver?", a: "Standard container shipping takes about 14 days. For urgent items, we offer air freight in 3–5 days." },
+  { q: "How fast can you deliver?", a: "Standard container shipping takes 14–30 working days depending on the route. For urgent items, we offer air freight in 3–5 days." },
 ];
 
 export function FAQSection() {

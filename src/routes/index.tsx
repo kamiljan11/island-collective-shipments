@@ -101,7 +101,7 @@ function Index() {
           <div className="bg-card border border-border/60 rounded-xl grid grid-cols-3 divide-x divide-border/50">
             {[
               { value: "40%", label: "Avg. freight savings" },
-              { value: "14 days", label: "Container delivery" },
+              { value: "14–30", label: "Working days by container" },
               { value: "100%", label: "VAT invoice included" },
             ].map((stat) => (
               <div key={stat.label} className="py-6 text-center">
