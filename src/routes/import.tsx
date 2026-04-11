@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ArrowRight, Link2, MessageSquare, ShoppingCart, FileCheck, Search } from "lucide-react";
+import { Truck } from "lucide-react";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { submitQuoteRequest } from "@/utils/orders.functions";
@@ -140,6 +141,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 function ImportForm() {
   const [formType, setFormType] = useState<"links" | "sourcing">("links");
   const [priority, setPriority] = useState<"standard" | "urgent">("standard");
+  const [deliveryToDoor, setDeliveryToDoor] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -162,6 +164,7 @@ function ImportForm() {
           content: formData.get("content") as string,
           estimated_value: (formData.get("estimated_value") as string) || undefined,
           weight_info: (formData.get("weight_info") as string) || undefined,
+          delivery_to_door: deliveryToDoor,
           company_name: formData.get("company_name") as string,
           kennitala: (formData.get("kennitala") as string) || "",
           email: formData.get("email") as string,
@@ -250,6 +253,32 @@ function ImportForm() {
               <span className="text-xs text-muted-foreground">5–7 working days · Premium</span>
             </button>
           </div>
+        </div>
+
+        {/* Delivery option */}
+        <div>
+          <button
+            type="button"
+            onClick={() => setDeliveryToDoor(!deliveryToDoor)}
+            className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-lg text-sm transition-colors border ${
+              deliveryToDoor
+                ? "border-primary/40 bg-primary/5"
+                : "border-border/60 bg-secondary/30"
+            }`}
+          >
+            <Truck size={18} className={deliveryToDoor ? "text-primary" : "text-muted-foreground"} />
+            <div className="text-left flex-1">
+              <span className={`font-medium block ${deliveryToDoor ? "text-primary" : ""}`}>
+                Deliver to my door
+              </span>
+              <span className="text-xs text-muted-foreground">
+                Optional · Extra fee applies · Otherwise pickup from our warehouse
+              </span>
+            </div>
+            <div className={`w-9 h-5 rounded-full transition-colors relative ${deliveryToDoor ? "bg-primary" : "bg-secondary"}`}>
+              <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-background shadow transition-transform ${deliveryToDoor ? "translate-x-4" : "translate-x-0.5"}`} />
+            </div>
+          </button>
         </div>
 
         {/* Optional details */}
