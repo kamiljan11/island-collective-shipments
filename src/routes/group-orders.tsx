@@ -179,7 +179,7 @@ function GroupOrdersPage() {
             USE IMPORT SERVICE <ArrowRight size={16} />
           </Link>
         </motion.div>
-    </div>
+      </div>
   );
 }
 
