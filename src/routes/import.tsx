@@ -190,7 +190,7 @@ function ImportForm() {
           estimated_value: (formData.get("estimated_value") as string) || undefined,
           weight_info: (formData.get("weight_info") as string) || undefined,
           company_name: formData.get("company_name") as string,
-          kennitala: (formData.get("kennitala") as string) || undefined,
+          kennitala: (formData.get("kennitala") as string) || "",
           email: formData.get("email") as string,
         },
       });

@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ImportRouteImport } from './routes/import'
 import { Route as GroupOrdersRouteImport } from './routes/group-orders'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
@@ -19,6 +20,11 @@ import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminCampaignsRouteImport } from './routes/admin.campaigns'
 
+const ImportRoute = ImportRouteImport.update({
+  id: '/import',
+  path: '/import',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GroupOrdersRoute = GroupOrdersRouteImport.update({
   id: '/group-orders',
   path: '/group-orders',
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/group-orders': typeof GroupOrdersRouteWithChildren
+  '/import': typeof ImportRoute
   '/admin/campaigns': typeof AdminCampaignsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/group-orders': typeof GroupOrdersRouteWithChildren
+  '/import': typeof ImportRoute
   '/admin/campaigns': typeof AdminCampaignsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/group-orders': typeof GroupOrdersRouteWithChildren
+  '/import': typeof ImportRoute
   '/admin/campaigns': typeof AdminCampaignsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/group-orders'
+    | '/import'
     | '/admin/campaigns'
     | '/admin/login'
     | '/admin/orders'
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/group-orders'
+    | '/import'
     | '/admin/campaigns'
     | '/admin/login'
     | '/admin/orders'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/group-orders'
+    | '/import'
     | '/admin/campaigns'
     | '/admin/login'
     | '/admin/orders'
@@ -137,10 +149,18 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   GroupOrdersRoute: typeof GroupOrdersRouteWithChildren
+  ImportRoute: typeof ImportRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/import': {
+      id: '/import'
+      path: '/import'
+      fullPath: '/import'
+      preLoaderRoute: typeof ImportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/group-orders': {
       id: '/group-orders'
       path: '/group-orders'
@@ -241,6 +261,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   GroupOrdersRoute: GroupOrdersRouteWithChildren,
+  ImportRoute: ImportRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
