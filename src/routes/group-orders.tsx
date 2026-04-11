@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Users, ArrowRight, Shield, CreditCard, RotateCcw } from "lucide-react";
 import winterTiresImg from "@/assets/winter-tires-container.jpg";
 import { IdeaBox } from "@/components/IdeaBox";
+import { CampaignDialog } from "@/components/CampaignDialog";
 
 type Campaign = {
   id: string;
@@ -37,6 +38,7 @@ export const Route = createFileRoute("/group-orders")({
 function GroupOrdersPage() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
 
   useEffect(() => {
     async function fetchCampaigns() {
@@ -50,6 +52,11 @@ function GroupOrdersPage() {
     }
     fetchCampaigns();
   }, []);
+
+  function handleCampaignUpdate(updated: Campaign) {
+    setCampaigns((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
+    setSelectedCampaign(updated);
+  }
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-6">
@@ -112,7 +119,12 @@ function GroupOrdersPage() {
         ) : (
           <div className="space-y-4">
             {campaigns.map((campaign, i) => (
-              <CampaignCard key={campaign.id} campaign={campaign} index={i} />
+              <CampaignCard
+                key={campaign.id}
+                campaign={campaign}
+                index={i}
+                onClick={() => setSelectedCampaign(campaign)}
+              />
             ))}
           </div>
         )}
@@ -148,6 +160,7 @@ function GroupOrdersPage() {
         {/* Idea Box */}
         <IdeaBox />
 
+        {/* Cross-sell */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -166,11 +179,20 @@ function GroupOrdersPage() {
           </Link>
         </motion.div>
       </div>
+
+      {/* Campaign detail dialog */}
+      {selectedCampaign && (
+        <CampaignDialog
+          campaign={selectedCampaign}
+          onClose={() => setSelectedCampaign(null)}
+          onUpdate={handleCampaignUpdate}
+        />
+      )}
     </div>
   );
 }
 
-function CampaignCard({ campaign, index }: { campaign: Campaign; index: number }) {
+function CampaignCard({ campaign, index, onClick }: { campaign: Campaign; index: number; onClick: () => void }) {
   const progress = Math.min((campaign.current_slots / campaign.target_slots) * 100, 100);
   const spotsLeft = campaign.target_slots - campaign.current_slots;
 
@@ -180,10 +202,9 @@ function CampaignCard({ campaign, index }: { campaign: Campaign; index: number }
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
     >
-      <Link
-        to="/group-orders/$campaignId"
-        params={{ campaignId: campaign.id }}
-        className="block bg-card border border-border/60 rounded-xl overflow-hidden hover:border-primary/30 transition-colors group"
+      <button
+        onClick={onClick}
+        className="w-full text-left bg-card border border-border/60 rounded-xl overflow-hidden hover:border-primary/30 transition-colors group"
       >
         <div className="flex gap-4 p-5">
           <div className="w-24 h-24 rounded-lg bg-secondary overflow-hidden shrink-0">
@@ -221,7 +242,7 @@ function CampaignCard({ campaign, index }: { campaign: Campaign; index: number }
                   className="h-full rounded-full transition-all duration-500"
                   style={{
                     width: `${progress}%`,
-                    background: progress >= 80 ? 'var(--hub-green)' : 'var(--primary)',
+                    background: progress >= 80 ? "var(--hub-green)" : "var(--primary)",
                   }}
                 />
               </div>
@@ -239,7 +260,7 @@ function CampaignCard({ campaign, index }: { campaign: Campaign; index: number }
             </div>
           </div>
         </div>
-      </Link>
+      </button>
     </motion.div>
   );
 }
