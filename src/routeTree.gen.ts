@@ -19,6 +19,7 @@ import { Route as GroupOrdersCampaignIdRouteImport } from './routes/group-orders
 import { Route as AdminQuotesRouteImport } from './routes/admin.quotes'
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminIdeasRouteImport } from './routes/admin.ideas'
 import { Route as AdminCampaignsRouteImport } from './routes/admin.campaigns'
 
 const SharedPalletRoute = SharedPalletRouteImport.update({
@@ -71,6 +72,11 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminIdeasRoute = AdminIdeasRouteImport.update({
+  id: '/ideas',
+  path: '/ideas',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminCampaignsRoute = AdminCampaignsRouteImport.update({
   id: '/campaigns',
   path: '/campaigns',
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/import': typeof ImportRoute
   '/shared-pallet': typeof SharedPalletRoute
   '/admin/campaigns': typeof AdminCampaignsRoute
+  '/admin/ideas': typeof AdminIdeasRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/quotes': typeof AdminQuotesRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/import': typeof ImportRoute
   '/shared-pallet': typeof SharedPalletRoute
   '/admin/campaigns': typeof AdminCampaignsRoute
+  '/admin/ideas': typeof AdminIdeasRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/quotes': typeof AdminQuotesRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/import': typeof ImportRoute
   '/shared-pallet': typeof SharedPalletRoute
   '/admin/campaigns': typeof AdminCampaignsRoute
+  '/admin/ideas': typeof AdminIdeasRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/quotes': typeof AdminQuotesRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/import'
     | '/shared-pallet'
     | '/admin/campaigns'
+    | '/admin/ideas'
     | '/admin/login'
     | '/admin/orders'
     | '/admin/quotes'
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/import'
     | '/shared-pallet'
     | '/admin/campaigns'
+    | '/admin/ideas'
     | '/admin/login'
     | '/admin/orders'
     | '/admin/quotes'
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
     | '/import'
     | '/shared-pallet'
     | '/admin/campaigns'
+    | '/admin/ideas'
     | '/admin/login'
     | '/admin/orders'
     | '/admin/quotes'
@@ -237,6 +249,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/ideas': {
+      id: '/admin/ideas'
+      path: '/ideas'
+      fullPath: '/admin/ideas'
+      preLoaderRoute: typeof AdminIdeasRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/campaigns': {
       id: '/admin/campaigns'
       path: '/campaigns'
@@ -249,6 +268,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminCampaignsRoute: typeof AdminCampaignsRoute
+  AdminIdeasRoute: typeof AdminIdeasRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
   AdminQuotesRoute: typeof AdminQuotesRoute
@@ -257,6 +277,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminCampaignsRoute: AdminCampaignsRoute,
+  AdminIdeasRoute: AdminIdeasRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminOrdersRoute: AdminOrdersRoute,
   AdminQuotesRoute: AdminQuotesRoute,
