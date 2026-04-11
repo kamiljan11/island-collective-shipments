@@ -180,16 +180,16 @@ export function CampaignDialog({
             {submitted ? (
               <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 text-center">
                 <CheckCircle size={32} className="text-primary mx-auto mb-3" />
-                <h3 className="text-base font-semibold mb-1">You're on the list!</h3>
+                <h3 className="text-base font-semibold mb-1">You're on the waitlist!</h3>
                 <p className="text-sm text-muted-foreground">
-                  We'll email you when the order is confirmed with deposit instructions.
+                  Once we have enough interest, we'll email you with instructions to pay the 50% deposit. You pay the remaining 50% at pickup.
                 </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-3">
-                <h3 className="text-sm font-semibold">Join this deal</h3>
+                <h3 className="text-sm font-semibold">Join the waitlist</h3>
                 <p className="text-xs text-muted-foreground -mt-1">
-                  No payment now. We contact you when the order is confirmed.
+                  No payment now. Once enough people join, we'll email you to pay a 50% deposit. Remaining 50% at pickup.
                 </p>
 
                 {error && (
