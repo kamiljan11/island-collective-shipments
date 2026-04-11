@@ -14,13 +14,173 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      group_campaigns: {
+        Row: {
+          created_at: string
+          currency: string
+          current_slots: number
+          deposit_amount: number
+          description: string | null
+          ends_at: string | null
+          id: string
+          image_url: string | null
+          starts_at: string
+          status: string
+          target_slots: number
+          title: string
+          unit_price_estimate: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          currency?: string
+          current_slots?: number
+          deposit_amount?: number
+          description?: string | null
+          ends_at?: string | null
+          id?: string
+          image_url?: string | null
+          starts_at?: string
+          status?: string
+          target_slots?: number
+          title: string
+          unit_price_estimate?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          currency?: string
+          current_slots?: number
+          deposit_amount?: number
+          description?: string | null
+          ends_at?: string | null
+          id?: string
+          image_url?: string | null
+          starts_at?: string
+          status?: string
+          target_slots?: number
+          title?: string
+          unit_price_estimate?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      group_orders: {
+        Row: {
+          campaign_id: string
+          company_name: string
+          contact_name: string
+          created_at: string
+          deposit_amount: number
+          deposit_paid: boolean
+          email: string
+          id: string
+          kennitala: string
+          notes: string | null
+          payment_reference: string | null
+          phone: string | null
+          quantity: number
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          campaign_id: string
+          company_name: string
+          contact_name: string
+          created_at?: string
+          deposit_amount?: number
+          deposit_paid?: boolean
+          email: string
+          id?: string
+          kennitala: string
+          notes?: string | null
+          payment_reference?: string | null
+          phone?: string | null
+          quantity?: number
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          campaign_id?: string
+          company_name?: string
+          contact_name?: string
+          created_at?: string
+          deposit_amount?: number
+          deposit_paid?: boolean
+          email?: string
+          id?: string
+          kennitala?: string
+          notes?: string | null
+          payment_reference?: string | null
+          phone?: string | null
+          quantity?: number
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "group_orders_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "group_campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quote_requests: {
+        Row: {
+          company_name: string
+          content: string
+          created_at: string
+          email: string
+          estimated_value: string | null
+          form_type: string
+          id: string
+          kennitala: string
+          priority: string
+          status: string
+          updated_at: string
+          weight_info: string | null
+        }
+        Insert: {
+          company_name: string
+          content: string
+          created_at?: string
+          email: string
+          estimated_value?: string | null
+          form_type?: string
+          id?: string
+          kennitala: string
+          priority?: string
+          status?: string
+          updated_at?: string
+          weight_info?: string | null
+        }
+        Update: {
+          company_name?: string
+          content?: string
+          created_at?: string
+          email?: string
+          estimated_value?: string | null
+          form_type?: string
+          id?: string
+          kennitala?: string
+          priority?: string
+          status?: string
+          updated_at?: string
+          weight_info?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      increment_campaign_slots: {
+        Args: { amount?: number; campaign_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
