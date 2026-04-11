@@ -14,16 +14,6 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
-      {/* Top banner */}
-      <div className="bg-primary/10 border-b border-primary/20 py-1.5 px-4 text-center text-xs font-mono tracking-wider">
-        <span className="text-primary">●</span>{" "}
-        <span className="text-muted-foreground">B2B SUPPLY LINE:</span>{" "}
-        <span className="text-primary font-semibold underline">
-          NEXT CONSOLIDATION DEPARTS IN 14 DAYS
-        </span>{" "}
-        <span className="text-muted-foreground">(PL HUB)</span>
-      </div>
-
       {/* Main nav */}
       <nav className="bg-background/80 backdrop-blur-xl border-b border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-16">
