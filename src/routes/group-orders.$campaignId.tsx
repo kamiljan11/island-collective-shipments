@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
 import { submitGroupOrder } from "@/utils/orders.functions";
-import { Users, Clock, Shield, RotateCcw, CreditCard, CheckCircle, ArrowLeft } from "lucide-react";
+import { Users, Clock, Shield, RotateCcw, CreditCard, CheckCircle, ArrowLeft, AlertCircle } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import winterTiresImg from "@/assets/winter-tires-container.jpg";
 
 type Campaign = {
   id: string;
