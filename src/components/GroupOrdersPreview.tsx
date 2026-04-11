@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { Users, ArrowRight, Clock, Package } from "lucide-react";
 import { motion } from "framer-motion";
+import winterTiresImg from "@/assets/winter-tires-container.jpg";
 
 type Campaign = {
   id: string;
