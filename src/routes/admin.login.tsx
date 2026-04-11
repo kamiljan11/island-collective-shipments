@@ -46,7 +46,7 @@ function AdminLoginPage() {
       return;
     }
 
-    navigate({ to: "/admin" });
+    window.location.href = "/admin";
   };
 
   return (
