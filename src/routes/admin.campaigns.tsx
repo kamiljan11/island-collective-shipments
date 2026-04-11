@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Plus, Edit2, Trash2 } from "lucide-react";
+import { Plus, Edit2, Trash2, Users, AlertTriangle } from "lucide-react";
 
 type Campaign = {
   id: string;
@@ -10,6 +10,7 @@ type Campaign = {
   deposit_amount: number;
   currency: string;
   target_slots: number;
+  internal_target_slots: number | null;
   current_slots: number;
   unit_price_estimate: number | null;
   status: string;
@@ -54,6 +55,7 @@ function AdminCampaigns() {
       description: (fd.get("description") as string) || null,
       deposit_amount: parseFloat(fd.get("deposit_amount") as string) || 0,
       target_slots: parseInt(fd.get("target_slots") as string) || 50,
+      internal_target_slots: parseInt(fd.get("internal_target_slots") as string) || null,
       unit_price_estimate: fd.get("unit_price_estimate")
         ? parseFloat(fd.get("unit_price_estimate") as string)
         : null,
@@ -126,9 +128,19 @@ function AdminCampaigns() {
                 <input name="deposit_amount" type="number" step="1" required defaultValue={editing?.deposit_amount || ""} className="w-full bg-input border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" />
               </div>
               <div>
-                <label className="text-xs font-semibold tracking-wider text-muted-foreground block mb-1">TARGET SLOTS *</label>
+                <label className="text-xs font-semibold tracking-wider text-muted-foreground block mb-1">PUBLIC TARGET *</label>
                 <input name="target_slots" type="number" required defaultValue={editing?.target_slots || 50} className="w-full bg-input border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" />
               </div>
+            </div>
+
+            <div className="bg-hub-amber/5 border border-hub-amber/20 rounded-lg p-3">
+              <label className="text-xs font-semibold tracking-wider text-hub-amber block mb-1 flex items-center gap-1">
+                <AlertTriangle size={12} /> INTERNAL TARGET (with drop-off buffer)
+              </label>
+              <input name="internal_target_slots" type="number" defaultValue={editing?.internal_target_slots || ""} placeholder="e.g. 60 if public is 50" className="w-full bg-input border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              <p className="text-[11px] text-muted-foreground mt-1">
+                Real target accounting for people who sign up but don't pay deposit. Only visible here.
+              </p>
             </div>
 
             <div>
@@ -178,40 +190,61 @@ function AdminCampaigns() {
                 <tr className="border-b border-border text-left">
                   <th className="px-4 py-3 font-semibold text-xs tracking-wider text-muted-foreground">TITLE</th>
                   <th className="px-4 py-3 font-semibold text-xs tracking-wider text-muted-foreground">STATUS</th>
-                  <th className="px-4 py-3 font-semibold text-xs tracking-wider text-muted-foreground">SLOTS</th>
+                  <th className="px-4 py-3 font-semibold text-xs tracking-wider text-muted-foreground">PUBLIC</th>
+                  <th className="px-4 py-3 font-semibold text-xs tracking-wider text-muted-foreground">INTERNAL</th>
                   <th className="px-4 py-3 font-semibold text-xs tracking-wider text-muted-foreground">DEPOSIT</th>
                   <th className="px-4 py-3 font-semibold text-xs tracking-wider text-muted-foreground">ACTIONS</th>
                 </tr>
               </thead>
               <tbody>
-                {campaigns.map((c) => (
-                  <tr key={c.id} className="border-b border-border last:border-0 hover:bg-secondary/30">
-                    <td className="px-4 py-3 font-medium">{c.title}</td>
-                    <td className="px-4 py-3">
-                      <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${statusColors[c.status] || "bg-secondary text-secondary-foreground"}`}>
-                        {c.status}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">{c.current_slots}/{c.target_slots}</td>
-                    <td className="px-4 py-3">{c.deposit_amount.toLocaleString()} {c.currency}</td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => { setEditing(c); setShowForm(true); }}
-                          className="p-1.5 rounded hover:bg-secondary text-muted-foreground hover:text-foreground"
-                        >
-                          <Edit2 size={14} />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(c.id)}
-                          className="p-1.5 rounded hover:bg-destructive/10 text-muted-foreground hover:text-destructive"
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                {campaigns.map((c) => {
+                  const internalTarget = c.internal_target_slots || c.target_slots;
+                  const bufferPct = internalTarget > c.target_slots
+                    ? Math.round(((internalTarget - c.target_slots) / c.target_slots) * 100)
+                    : 0;
+
+                  return (
+                    <tr key={c.id} className="border-b border-border last:border-0 hover:bg-secondary/30">
+                      <td className="px-4 py-3 font-medium">{c.title}</td>
+                      <td className="px-4 py-3">
+                        <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${statusColors[c.status] || "bg-secondary text-secondary-foreground"}`}>
+                          {c.status}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="flex items-center gap-1">
+                          <Users size={12} className="text-primary" />
+                          {c.current_slots}/{c.target_slots}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="text-hub-amber font-mono text-xs">
+                          {c.current_slots}/{internalTarget}
+                          {bufferPct > 0 && (
+                            <span className="text-muted-foreground ml-1">(+{bufferPct}% buffer)</span>
+                          )}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">{c.deposit_amount.toLocaleString()} {c.currency}</td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => { setEditing(c); setShowForm(true); }}
+                            className="p-1.5 rounded hover:bg-secondary text-muted-foreground hover:text-foreground"
+                          >
+                            <Edit2 size={14} />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(c.id)}
+                            className="p-1.5 rounded hover:bg-destructive/10 text-muted-foreground hover:text-destructive"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
