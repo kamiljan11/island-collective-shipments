@@ -115,27 +115,6 @@ function ImportPage() {
         </div>
       </section>
 
-      {/* Cross-sell */}
-      <section className="py-16 px-6 border-t border-border/30">
-        <div className="max-w-lg mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-lg font-bold mb-2">Ordering in larger quantities?</h2>
-            <p className="text-sm text-muted-foreground max-w-sm mx-auto mb-5">
-              Check our bulk deals — we pool orders into container shipments so everyone saves on freight.
-            </p>
-            <Link
-              to="/group-orders"
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors"
-            >
-              View Bulk Deals <ArrowRight size={14} />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
     </div>
   );
 }
