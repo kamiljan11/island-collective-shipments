@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, Clock, ArrowRight, Shield, CreditCard, RotateCcw } from "lucide-react";
+import { Users, Clock, ArrowRight, Shield, CreditCard, RotateCcw, Link2 } from "lucide-react";
 import winterTiresImg from "@/assets/winter-tires-container.jpg";
 
 type Campaign = {
