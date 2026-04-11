@@ -38,12 +38,12 @@ function AdminLayout() {
 
       setUser(session.user);
 
-      const { data: roles } = await supabase
-        .from("user_roles")
-        .select("role")
-        .limit(1);
+      const { data: hasAdmin } = await supabase.rpc("has_role", {
+        _user_id: session.user.id,
+        _role: "admin",
+      });
 
-      if (!roles || !roles.some((r) => r.role === "admin")) {
+      if (!hasAdmin) {
         await supabase.auth.signOut();
         navigate({ to: "/admin/login" });
         return;

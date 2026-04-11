@@ -33,13 +33,20 @@ function AdminLoginPage() {
       return;
     }
 
-    // Check admin role
-    const { data: roles } = await supabase
-      .from("user_roles")
-      .select("role")
-      .limit(1);
+    // Check admin role using security definer function (bypasses RLS)
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      setError("Authentication failed");
+      setLoading(false);
+      return;
+    }
 
-    if (!roles || roles.length === 0 || !roles.some((r) => r.role === "admin")) {
+    const { data: hasAdmin } = await supabase.rpc("has_role", {
+      _user_id: user.id,
+      _role: "admin",
+    });
+
+    if (!hasAdmin) {
       await supabase.auth.signOut();
       setError("Access denied. Admin role required.");
       setLoading(false);
