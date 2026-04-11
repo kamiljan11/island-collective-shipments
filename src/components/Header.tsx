@@ -3,9 +3,9 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const navItems = [
-  { label: "HUB", href: "/#hub" },
+  { label: "SERVICES", href: "/#services" },
   { label: "GROUP ORDERS", href: "/group-orders", isRoute: true },
-  { label: "HOW IT WORKS", href: "/#how" },
+  { label: "WHY MAS", href: "/#solution" },
   { label: "FAQ", href: "/#faq" },
 ];
 
