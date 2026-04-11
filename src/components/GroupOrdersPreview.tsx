@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { Users, ArrowRight, Clock, Package } from "lucide-react";
 import { motion } from "framer-motion";
+import winterTiresImg from "@/assets/winter-tires-container.jpg";
 
 type Campaign = {
   id: string;
@@ -127,11 +128,12 @@ export function GroupOrdersPreview() {
                     params={{ campaignId: campaign.id }}
                     className="block bg-card border border-border rounded-xl overflow-hidden hover:border-primary/40 transition-colors group h-full"
                   >
-                    {campaign.image_url && (
-                      <div className="h-40 bg-secondary overflow-hidden">
+                    {(campaign.image_url || winterTiresImg) && (
+                      <div className="h-48 bg-secondary overflow-hidden">
                         <img
-                          src={campaign.image_url}
+                          src={campaign.image_url || winterTiresImg}
                           alt={campaign.title}
+                          loading="lazy"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>
