@@ -4,9 +4,8 @@ import { Menu, X } from "lucide-react";
 
 const navItems = [
   { label: "SERVICES", href: "/#services" },
-  { label: "SOLUTION", href: "/#solution" },
-  { label: "INDUSTRIES", href: "/#industries" },
   { label: "GROUP ORDERS", href: "/group-orders", isRoute: true },
+  { label: "WHY MAS", href: "/#solution" },
   { label: "FAQ", href: "/#faq" },
 ];
 
