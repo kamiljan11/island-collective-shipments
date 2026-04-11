@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as GroupOrdersRouteImport } from './routes/group-orders'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GroupOrdersCampaignIdRouteImport } from './routes/group-orders.$campaignId'
 
 const GroupOrdersRoute = GroupOrdersRouteImport.update({
   id: '/group-orders',
@@ -22,31 +23,39 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GroupOrdersCampaignIdRoute = GroupOrdersCampaignIdRouteImport.update({
+  id: '/$campaignId',
+  path: '/$campaignId',
+  getParentRoute: () => GroupOrdersRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/group-orders': typeof GroupOrdersRoute
+  '/group-orders': typeof GroupOrdersRouteWithChildren
+  '/group-orders/$campaignId': typeof GroupOrdersCampaignIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/group-orders': typeof GroupOrdersRoute
+  '/group-orders': typeof GroupOrdersRouteWithChildren
+  '/group-orders/$campaignId': typeof GroupOrdersCampaignIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/group-orders': typeof GroupOrdersRoute
+  '/group-orders': typeof GroupOrdersRouteWithChildren
+  '/group-orders/$campaignId': typeof GroupOrdersCampaignIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/group-orders'
+  fullPaths: '/' | '/group-orders' | '/group-orders/$campaignId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/group-orders'
-  id: '__root__' | '/' | '/group-orders'
+  to: '/' | '/group-orders' | '/group-orders/$campaignId'
+  id: '__root__' | '/' | '/group-orders' | '/group-orders/$campaignId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  GroupOrdersRoute: typeof GroupOrdersRoute
+  GroupOrdersRoute: typeof GroupOrdersRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +74,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/group-orders/$campaignId': {
+      id: '/group-orders/$campaignId'
+      path: '/$campaignId'
+      fullPath: '/group-orders/$campaignId'
+      preLoaderRoute: typeof GroupOrdersCampaignIdRouteImport
+      parentRoute: typeof GroupOrdersRoute
+    }
   }
 }
 
+interface GroupOrdersRouteChildren {
+  GroupOrdersCampaignIdRoute: typeof GroupOrdersCampaignIdRoute
+}
+
+const GroupOrdersRouteChildren: GroupOrdersRouteChildren = {
+  GroupOrdersCampaignIdRoute: GroupOrdersCampaignIdRoute,
+}
+
+const GroupOrdersRouteWithChildren = GroupOrdersRoute._addFileChildren(
+  GroupOrdersRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  GroupOrdersRoute: GroupOrdersRoute,
+  GroupOrdersRoute: GroupOrdersRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
