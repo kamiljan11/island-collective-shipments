@@ -6,6 +6,7 @@ import {
   Package,
   ShoppingCart,
   FileText,
+  Lightbulb,
   LogOut,
   Menu,
   X,
@@ -122,6 +123,7 @@ function AdminLayout() {
     { to: "/admin/campaigns" as const, label: "Campaigns", icon: Package },
     { to: "/admin/orders" as const, label: "Orders", icon: ShoppingCart },
     { to: "/admin/quotes" as const, label: "Quotes", icon: FileText },
+    { to: "/admin/ideas" as const, label: "Product Ideas", icon: Lightbulb },
   ];
 
   return (
