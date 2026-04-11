@@ -18,11 +18,7 @@ export function HeroSection() {
 
       <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         {/* Left */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-        >
+        <div>
           <div className="inline-flex items-center gap-2 bg-secondary/60 rounded-full px-4 py-1.5 mb-8 border border-border/50">
             <span className="text-hub-green text-xs">●</span>
             <span className="text-xs tracking-wider text-muted-foreground">
@@ -62,13 +58,10 @@ export function HeroSection() {
               HOW IT WORKS
             </a>
           </div>
-        </motion.div>
+        </div>
 
         {/* Right — Hub Activity card */}
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
+        <div
           className="relative"
         >
           {/* HUB ACTIVITY badge */}
@@ -110,7 +103,7 @@ export function HeroSection() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
