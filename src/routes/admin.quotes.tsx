@@ -13,6 +13,7 @@ type Quote = {
   company_name: string;
   kennitala: string;
   email: string;
+  delivery_to_door: boolean;
   status: string;
   created_at: string;
 };
@@ -76,6 +77,9 @@ function AdminQuotes() {
                       {q.status}
                     </span>
                     <span className="text-xs text-muted-foreground">{q.form_type} • {q.priority}</span>
+                    {q.delivery_to_door && (
+                      <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-chart-2/20 text-chart-2">🚚 Door delivery</span>
+                    )}
                   </div>
                   <p className="text-xs text-muted-foreground mt-1 truncate">{q.content}</p>
                 </div>
