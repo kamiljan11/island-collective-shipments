@@ -4,7 +4,6 @@ import { BrandMarquee } from "@/components/BrandMarquee";
 import { ServicesOverview } from "@/components/ServicesOverview";
 import { GroupOrdersPreview } from "@/components/GroupOrdersPreview";
 import { WhyMASSection } from "@/components/WhyMASSection";
-import { IndustriesSection } from "@/components/IndustriesSection";
 import { FAQSection } from "@/components/FAQSection";
 import { QuoteSection } from "@/components/QuoteSection";
 
@@ -28,7 +27,6 @@ function Index() {
       <ServicesOverview />
       <GroupOrdersPreview />
       <WhyMASSection />
-      <IndustriesSection />
       <FAQSection />
       <QuoteSection />
     </>
