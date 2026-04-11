@@ -1,5 +1,4 @@
 import { ArrowRight } from "lucide-react";
-import { ArrowRight } from "lucide-react";
 
 const manifestItems = [
   { icon: "📦", name: "OEM Brake Discs", from: "Inter Cars SA", to: "Mosfellsbær Garage" },
