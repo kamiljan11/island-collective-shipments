@@ -5,6 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { Users, ArrowRight, Shield, CreditCard, RotateCcw } from "lucide-react";
 import winterTiresImg from "@/assets/winter-tires-container.jpg";
+import { IdeaBox } from "@/components/IdeaBox";
 
 type Campaign = {
   id: string;
@@ -144,7 +145,9 @@ function GroupOrdersPage() {
           </div>
         </motion.div>
 
-        {/* Cross-sell */}
+        {/* Idea Box */}
+        <IdeaBox />
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
