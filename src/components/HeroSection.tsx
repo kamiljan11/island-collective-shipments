@@ -41,7 +41,7 @@ export function HeroSection() {
             <span className="text-foreground font-semibold">
               We source, buy, and deliver.
             </span>{" "}
-            We handle everything from the factory to your door. Delivered with a valid{" "}
+            We handle everything — purchasing, customs clearance, and shipping to your door. Delivered with a valid{" "}
             <span className="text-foreground font-semibold">
               Icelandic VAT Invoice
             </span>
