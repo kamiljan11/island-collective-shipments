@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SharedPalletRouteImport } from './routes/shared-pallet'
 import { Route as ImportRouteImport } from './routes/import'
 import { Route as GroupOrdersRouteImport } from './routes/group-orders'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -20,6 +21,11 @@ import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminCampaignsRouteImport } from './routes/admin.campaigns'
 
+const SharedPalletRoute = SharedPalletRouteImport.update({
+  id: '/shared-pallet',
+  path: '/shared-pallet',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ImportRoute = ImportRouteImport.update({
   id: '/import',
   path: '/import',
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/group-orders': typeof GroupOrdersRouteWithChildren
   '/import': typeof ImportRoute
+  '/shared-pallet': typeof SharedPalletRoute
   '/admin/campaigns': typeof AdminCampaignsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/group-orders': typeof GroupOrdersRouteWithChildren
   '/import': typeof ImportRoute
+  '/shared-pallet': typeof SharedPalletRoute
   '/admin/campaigns': typeof AdminCampaignsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/group-orders': typeof GroupOrdersRouteWithChildren
   '/import': typeof ImportRoute
+  '/shared-pallet': typeof SharedPalletRoute
   '/admin/campaigns': typeof AdminCampaignsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/group-orders'
     | '/import'
+    | '/shared-pallet'
     | '/admin/campaigns'
     | '/admin/login'
     | '/admin/orders'
@@ -125,6 +135,7 @@ export interface FileRouteTypes {
     | '/'
     | '/group-orders'
     | '/import'
+    | '/shared-pallet'
     | '/admin/campaigns'
     | '/admin/login'
     | '/admin/orders'
@@ -137,6 +148,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/group-orders'
     | '/import'
+    | '/shared-pallet'
     | '/admin/campaigns'
     | '/admin/login'
     | '/admin/orders'
@@ -150,10 +162,18 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   GroupOrdersRoute: typeof GroupOrdersRouteWithChildren
   ImportRoute: typeof ImportRoute
+  SharedPalletRoute: typeof SharedPalletRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/shared-pallet': {
+      id: '/shared-pallet'
+      path: '/shared-pallet'
+      fullPath: '/shared-pallet'
+      preLoaderRoute: typeof SharedPalletRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/import': {
       id: '/import'
       path: '/import'
@@ -262,6 +282,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   GroupOrdersRoute: GroupOrdersRouteWithChildren,
   ImportRoute: ImportRoute,
+  SharedPalletRoute: SharedPalletRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

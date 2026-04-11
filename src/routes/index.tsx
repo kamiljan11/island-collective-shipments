@@ -34,7 +34,7 @@ function Index() {
           </p>
 
           {/* Service cards */}
-          <div className="grid sm:grid-cols-2 gap-4 text-left">
+          <div className="grid sm:grid-cols-3 gap-4 text-left">
             <Link
               to="/group-orders"
               className="group bg-card border border-border/60 hover:border-primary/40 rounded-xl p-6 transition-all"
@@ -60,6 +60,21 @@ function Index() {
               </p>
               <span className="text-primary text-sm font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
                 Get a quote <ArrowRight size={14} />
+              </span>
+            </Link>
+
+            <Link
+              to="/shared-pallet"
+              className="group bg-card border border-border/60 hover:border-primary/40 rounded-xl p-6 transition-all relative overflow-hidden"
+            >
+              <span className="absolute top-3 right-3 text-[10px] font-semibold tracking-wider bg-primary/15 text-primary px-2 py-0.5 rounded">COMING SOON</span>
+              <p className="text-[11px] text-muted-foreground tracking-widest mb-3">SERVICE 3</p>
+              <h2 className="text-base font-semibold mb-2">Shared Pallet</h2>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                Buy cube slots on a shared pallet. The more people join, the cheaper it gets for everyone.
+              </p>
+              <span className="text-primary text-sm font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                Learn more <ArrowRight size={14} />
               </span>
             </Link>
           </div>
