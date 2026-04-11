@@ -63,7 +63,7 @@ export const submitGroupOrder = createServerFn({ method: "POST" })
     // Get campaign to check deposit amount
     const { data: campaign, error: campaignError } = await supabase
       .from("group_campaigns")
-      .select("deposit_amount, target_slots, current_slots, status")
+      .select("deposit_amount, target_slots, current_slots, status, currency")
       .eq("id", data.campaign_id)
       .single();
 
@@ -106,6 +106,6 @@ export const submitGroupOrder = createServerFn({ method: "POST" })
     return {
       success: true,
       deposit_amount: campaign.deposit_amount * data.quantity,
-      currency: "ISK",
+      currency: campaign.currency || "ISK",
     };
   });

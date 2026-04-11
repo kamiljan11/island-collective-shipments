@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Users, AlertTriangle, CheckCircle2, XCircle } from "lucide-react";
 
 type Order = {
   id: string;
@@ -21,6 +21,14 @@ type Order = {
   campaign_title?: string;
 };
 
+type CampaignInfo = {
+  id: string;
+  title: string;
+  target_slots: number;
+  internal_target_slots: number | null;
+  current_slots: number;
+};
+
 export const Route = createFileRoute("/admin/orders")({
   component: AdminOrders,
 });
@@ -37,7 +45,7 @@ const ORDER_STATUSES = [
 
 function AdminOrders() {
   const [orders, setOrders] = useState<Order[]>([]);
-  const [campaigns, setCampaigns] = useState<{ id: string; title: string }[]>([]);
+  const [campaigns, setCampaigns] = useState<CampaignInfo[]>([]);
   const [loading, setLoading] = useState(true);
   const [filterCampaign, setFilterCampaign] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
@@ -46,7 +54,7 @@ function AdminOrders() {
   const fetchData = async () => {
     const [ordersRes, campaignsRes] = await Promise.all([
       supabase.from("group_orders").select("*").order("created_at", { ascending: false }),
-      supabase.from("group_campaigns").select("id, title"),
+      supabase.from("group_campaigns").select("id, title, target_slots, internal_target_slots, current_slots"),
     ]);
 
     const campaignMap = new Map(
@@ -86,6 +94,28 @@ function AdminOrders() {
     return true;
   });
 
+  // Compute stats for selected campaign
+  const selectedCampaign = filterCampaign !== "all"
+    ? campaigns.find((c) => c.id === filterCampaign)
+    : null;
+
+  const campaignOrders = filterCampaign !== "all"
+    ? orders.filter((o) => o.campaign_id === filterCampaign)
+    : orders;
+
+  const stats = {
+    total: campaignOrders.length,
+    totalQty: campaignOrders.reduce((s, o) => s + o.quantity, 0),
+    pending: campaignOrders.filter((o) => o.status === "pending").length,
+    approved: campaignOrders.filter((o) => o.status === "approved").length,
+    depositPaid: campaignOrders.filter((o) => o.deposit_paid).length,
+    cancelled: campaignOrders.filter((o) => o.status === "cancelled").length,
+  };
+
+  const conversionRate = stats.total > 0
+    ? Math.round((stats.depositPaid / stats.total) * 100)
+    : 0;
+
   const statusColors: Record<string, string> = {
     pending: "bg-hub-amber/20 text-hub-amber",
     approved: "bg-primary/20 text-primary",
@@ -99,6 +129,48 @@ function AdminOrders() {
   return (
     <div>
       <h1 className="text-2xl font-black tracking-tight mb-6">ORDERS</h1>
+
+      {/* Stats bar */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 mb-6">
+        <div className="bg-card border border-border rounded-lg p-3">
+          <p className="text-[10px] font-semibold tracking-wider text-muted-foreground">SIGN-UPS</p>
+          <p className="text-2xl font-black">{stats.total}</p>
+          <p className="text-xs text-muted-foreground">{stats.totalQty} units total</p>
+        </div>
+        <div className="bg-card border border-border rounded-lg p-3">
+          <p className="text-[10px] font-semibold tracking-wider text-muted-foreground">PENDING</p>
+          <p className="text-2xl font-black text-hub-amber">{stats.pending}</p>
+          <p className="text-xs text-muted-foreground">awaiting review</p>
+        </div>
+        <div className="bg-card border border-border rounded-lg p-3">
+          <p className="text-[10px] font-semibold tracking-wider text-muted-foreground">DEPOSIT PAID</p>
+          <p className="text-2xl font-black text-hub-green">{stats.depositPaid}</p>
+          <p className="text-xs text-muted-foreground">confirmed</p>
+        </div>
+        <div className="bg-card border border-border rounded-lg p-3">
+          <p className="text-[10px] font-semibold tracking-wider text-muted-foreground">CANCELLED</p>
+          <p className="text-2xl font-black text-destructive">{stats.cancelled}</p>
+          <p className="text-xs text-muted-foreground">drop-offs</p>
+        </div>
+        <div className="bg-card border border-border rounded-lg p-3">
+          <p className="text-[10px] font-semibold tracking-wider text-muted-foreground">CONVERSION</p>
+          <p className="text-2xl font-black">{conversionRate}%</p>
+          <p className="text-xs text-muted-foreground">sign-up → paid</p>
+        </div>
+        {selectedCampaign && (
+          <div className="bg-hub-amber/5 border border-hub-amber/20 rounded-lg p-3">
+            <p className="text-[10px] font-semibold tracking-wider text-hub-amber flex items-center gap-1">
+              <AlertTriangle size={10} /> INT. TARGET
+            </p>
+            <p className="text-2xl font-black text-hub-amber">
+              {stats.depositPaid}/{selectedCampaign.internal_target_slots || selectedCampaign.target_slots}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              public: {selectedCampaign.current_slots}/{selectedCampaign.target_slots}
+            </p>
+          </div>
+        )}
+      </div>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-6">
@@ -151,6 +223,9 @@ function AdminOrders() {
                     <span className={`px-2 py-0.5 rounded-full text-[11px] font-semibold ${statusColors[order.status] || "bg-secondary text-secondary-foreground"}`}>
                       {order.status}
                     </span>
+                    {order.deposit_paid && (
+                      <CheckCircle2 size={14} className="text-hub-green" />
+                    )}
                   </div>
                   <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
                     <span>{order.campaign_title}</span>

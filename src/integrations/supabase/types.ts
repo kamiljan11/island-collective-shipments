@@ -24,6 +24,7 @@ export type Database = {
           ends_at: string | null
           id: string
           image_url: string | null
+          internal_target_slots: number | null
           starts_at: string
           status: string
           target_slots: number
@@ -40,6 +41,7 @@ export type Database = {
           ends_at?: string | null
           id?: string
           image_url?: string | null
+          internal_target_slots?: number | null
           starts_at?: string
           status?: string
           target_slots?: number
@@ -56,6 +58,7 @@ export type Database = {
           ends_at?: string | null
           id?: string
           image_url?: string | null
+          internal_target_slots?: number | null
           starts_at?: string
           status?: string
           target_slots?: number

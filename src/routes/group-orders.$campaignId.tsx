@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
 import { submitGroupOrder } from "@/utils/orders.functions";
-import { Users, Clock, Shield, RotateCcw, CreditCard, CheckCircle, ArrowLeft } from "lucide-react";
+import { Users, Clock, Shield, RotateCcw, CreditCard, CheckCircle, ArrowLeft, AlertCircle } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import winterTiresImg from "@/assets/winter-tires-container.jpg";
 
 type Campaign = {
   id: string;
@@ -132,9 +133,30 @@ function CampaignDetailPage() {
           {/* Campaign info — left */}
           <div className="lg:col-span-3">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              {campaign.image_url && (
-                <div className="w-full h-48 sm:h-64 rounded-xl bg-secondary overflow-hidden mb-6">
-                  <img src={campaign.image_url} alt={campaign.title} className="w-full h-full object-cover" />
+              <div className="w-full h-48 sm:h-64 rounded-xl bg-secondary overflow-hidden mb-6">
+                <img
+                  src={campaign.image_url || winterTiresImg}
+                  alt={campaign.title}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Status banner */}
+              {campaign.status === "funded" && (
+                <div className="bg-hub-green/10 border border-hub-green/30 rounded-lg p-3 mb-4 flex items-center gap-2">
+                  <CheckCircle size={16} className="text-hub-green shrink-0" />
+                  <p className="text-sm text-hub-green font-semibold">
+                    This campaign is fully funded! We're processing the container order.
+                  </p>
+                </div>
+              )}
+              {campaign.status !== "active" && campaign.status !== "funded" && (
+                <div className="bg-muted border border-border rounded-lg p-3 mb-4 flex items-center gap-2">
+                  <AlertCircle size={16} className="text-muted-foreground shrink-0" />
+                  <p className="text-sm text-muted-foreground">
+                    This campaign is currently {campaign.status}. Sign-ups are not available right now.
+                  </p>
                 </div>
               )}
 
@@ -301,10 +323,16 @@ function CampaignDetailPage() {
 
                   <button
                     type="submit"
-                    disabled={submitting || spotsLeft <= 0}
+                    disabled={submitting || spotsLeft <= 0 || campaign.status !== "active"}
                     className="w-full bg-primary text-primary-foreground py-3 rounded-md font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50"
                   >
-                    {submitting ? "Signing up..." : spotsLeft <= 0 ? "Campaign Full" : "Join Interest List"}
+                    {submitting
+                      ? "Signing up..."
+                      : campaign.status !== "active"
+                        ? "Campaign Closed"
+                        : spotsLeft <= 0
+                          ? "Campaign Full"
+                          : "Join Interest List"}
                   </button>
 
                   <p className="text-[11px] text-muted-foreground text-center">
