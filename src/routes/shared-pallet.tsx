@@ -19,128 +19,92 @@ export const Route = createFileRoute("/shared-pallet")({
 const TOTAL_CUBES = 24;
 
 /* ── Isometric pallet drawn with 2-D offsets (no CSS 3D) ── */
-function PalletVisualization({ hoveredCubes, onCubeClick }: { hoveredCubes: number; onCubeClick: (n: number) => void }) {
-  // 4 layers × 6 cubes (3 cols × 2 rows)
-  const cubeW = 80;
-  const cubeH = 44; // top face height
-  const cubeD = 30; // front face depth
-  const gapX = 5;
-  const gapY = 5;
-  const layerLift = 38; // vertical lift per layer
-
-  // compute total size for centering
-  const totalW = 3 * cubeW + 2 * gapX;
-  const totalH = 2 * (cubeH + cubeD) + gapY + 3 * layerLift + 16;
-
+function PalletVisualization({
+  hoveredCubes,
+  onCubeClick,
+}: {
+  hoveredCubes: number;
+  onCubeClick: (n: number) => void;
+}) {
+  // 4 layers × 6 cubes (3 cols × 2 rows per layer)
+  // Rendered bottom-to-top as stacked rows with negative margin overlap
   return (
-    <div className="flex justify-center mb-6">
-      <div className="relative" style={{ width: totalW, height: totalH }}>
-        {/* Pallet base shadow */}
+    <div className="flex flex-col items-center mb-6">
+      {/* Layers rendered top (layer 3) to bottom (layer 0) */}
+      {[3, 2, 1, 0].map((layer) => (
         <div
-          className="absolute rounded-md"
-          style={{
-            left: -8,
-            bottom: -6,
-            width: totalW + 16,
-            height: 16,
-            background: "hsl(var(--primary) / 0.12)",
-            filter: "blur(12px)",
-            borderRadius: 12,
-          }}
-        />
-        {/* Wooden pallet base */}
-        <div
-          className="absolute rounded-md border"
-          style={{
-            left: -4,
-            bottom: 0,
-            width: totalW + 8,
-            height: 18,
-            background: "linear-gradient(180deg, hsl(30 30% 28%), hsl(30 25% 20%))",
-            borderColor: "hsl(30 20% 16%)",
-          }}
+          key={layer}
+          className="grid grid-cols-3 gap-1.5"
+          style={{ marginTop: layer < 3 ? -6 : 0, position: "relative", zIndex: 4 - layer }}
         >
-          {/* Wooden slats */}
-          {[0.15, 0.38, 0.62, 0.85].map((p) => (
-            <div
-              key={p}
-              className="absolute"
-              style={{
-                left: `${p * 100}%`,
-                top: 3,
-                bottom: 3,
-                width: 1.5,
-                background: "hsl(30 15% 14%)",
-                borderRadius: 1,
-              }}
-            />
-          ))}
+          {/* 2 rows per layer: back row first, front row second */}
+          {[0, 1].map((row) =>
+            [0, 1, 2].map((col) => {
+              const cubeIndex = layer * 6 + row * 3 + col;
+              const isFilled = cubeIndex < hoveredCubes;
+              return (
+                <motion.button
+                  key={cubeIndex}
+                  onClick={() => onCubeClick(cubeIndex + 1)}
+                  className="flex flex-col"
+                  whileHover={{ y: -3 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {/* Top face */}
+                  <div
+                    className={`w-16 h-8 sm:w-20 sm:h-10 rounded-t-sm transition-all duration-200 flex items-center justify-center ${
+                      isFilled
+                        ? "border-primary/50"
+                        : "border-border/40"
+                    }`}
+                    style={{
+                      background: isFilled
+                        ? "linear-gradient(135deg, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.2))"
+                        : "linear-gradient(135deg, hsl(var(--secondary) / 0.6), hsl(var(--secondary) / 0.3))",
+                      borderWidth: 1.5,
+                      boxShadow: isFilled
+                        ? "inset 0 1px 6px hsl(var(--primary) / 0.12)"
+                        : "none",
+                    }}
+                  >
+                    {isFilled && <Package size={14} className="text-primary/50" />}
+                  </div>
+                  {/* Front face */}
+                  <div
+                    className="w-16 h-4 sm:w-20 sm:h-5 rounded-b-sm transition-all duration-200"
+                    style={{
+                      background: isFilled
+                        ? "linear-gradient(180deg, hsl(var(--primary) / 0.25), hsl(var(--primary) / 0.08))"
+                        : "linear-gradient(180deg, hsl(var(--secondary) / 0.4), hsl(var(--secondary) / 0.15))",
+                      borderWidth: 1.5,
+                      borderTop: "none",
+                      borderColor: isFilled
+                        ? "hsl(var(--primary) / 0.3)"
+                        : "hsl(var(--border) / 0.3)",
+                    }}
+                  />
+                </motion.button>
+              );
+            })
+          )}
         </div>
-
-        {/* Cubes */}
-        {Array.from({ length: TOTAL_CUBES }).map((_, i) => {
-          const layer = Math.floor(i / 6);
-          const posInLayer = i % 6;
-          const col = posInLayer % 3;
-          const row = Math.floor(posInLayer / 3);
-          const isFilled = i < hoveredCubes;
-
-          const x = col * (cubeW + gapX);
-          const y = totalH - 18 - (cubeH + cubeD) - row * (cubeH + cubeD + gapY) - layer * layerLift;
-
-          return (
-            <motion.button
-              key={i}
-              onClick={() => onCubeClick(i + 1)}
-              className="absolute"
-              style={{
-                left: x,
-                top: y,
-                width: cubeW,
-                height: cubeH + cubeD,
-                zIndex: layer * 10 + (1 - row) * 5 + col,
-              }}
-              whileHover={{ y: -4 }}
-              whileTap={{ scale: 0.96 }}
-            >
-              {/* Top face */}
-              <div
-                className="absolute left-0 top-0 rounded-t transition-all duration-200"
-                style={{
-                  width: cubeW,
-                  height: cubeH,
-                  background: isFilled
-                    ? "linear-gradient(135deg, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.22))"
-                    : "linear-gradient(135deg, hsl(var(--secondary) / 0.7), hsl(var(--secondary) / 0.4))",
-                  border: `1.5px solid ${isFilled ? "hsl(var(--primary) / 0.5)" : "hsl(var(--border) / 0.5)"}`,
-                  boxShadow: isFilled
-                    ? "inset 0 1px 6px hsl(var(--primary) / 0.15), 0 -2px 8px hsl(var(--primary) / 0.06)"
-                    : "inset 0 1px 3px hsl(var(--secondary) / 0.1)",
-                }}
-              >
-                {isFilled && (
-                  <Package size={18} className="absolute inset-0 m-auto text-primary/50" />
-                )}
-              </div>
-              {/* Front face */}
-              <div
-                className="absolute left-0 rounded-b transition-all duration-200"
-                style={{
-                  top: cubeH - 1,
-                  width: cubeW,
-                  height: cubeD,
-                  background: isFilled
-                    ? "linear-gradient(180deg, hsl(var(--primary) / 0.28), hsl(var(--primary) / 0.1))"
-                    : "linear-gradient(180deg, hsl(var(--secondary) / 0.5), hsl(var(--secondary) / 0.2))",
-                  border: `1.5px solid ${isFilled ? "hsl(var(--primary) / 0.3)" : "hsl(var(--border) / 0.3)"}`,
-                  borderTop: "none",
-                }}
-              />
-            </motion.button>
-          );
-        })}
+      ))}
+      {/* Wooden pallet base */}
+      <div
+        className="rounded-md"
+        style={{
+          width: "calc(100% + 8px)",
+          maxWidth: 268,
+          height: 14,
+          marginTop: -2,
+          background: "linear-gradient(180deg, hsl(30 30% 28%), hsl(30 25% 18%))",
+          border: "1px solid hsl(30 20% 15%)",
+          position: "relative",
+          zIndex: 0,
+          boxShadow: "0 4px 12px hsl(var(--primary) / 0.08)",
+        }}
+      />
       </div>
-    </div>
   );
 }
 
