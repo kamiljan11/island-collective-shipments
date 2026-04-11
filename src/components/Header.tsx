@@ -3,12 +3,12 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const navItems = [
-  { label: "Solution", href: "/#solution" },
-  { label: "Industries", href: "/#industries" },
-  { label: "Consolidation", href: "/#consolidation" },
-  { label: "Process", href: "/#process" },
+  { label: "SOLUTION", href: "/#solution" },
+  { label: "INDUSTRIES", href: "/#industries" },
+  { label: "CONSOLIDATION", href: "/#consolidation" },
+  { label: "PROCESS", href: "/#process" },
   { label: "FAQ", href: "/#faq" },
-  { label: "Group Orders", href: "/group-orders" },
+  { label: "GROUP ORDERS", href: "/group-orders" },
 ];
 
 export function Header() {
@@ -28,8 +28,8 @@ export function Header() {
 
       {/* Main nav */}
       <nav className="bg-background/80 backdrop-blur-xl border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-2">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-16">
+          <Link to="/" className="flex items-center gap-3">
             <span className="text-xl font-bold tracking-tight">
               MAS <span className="text-primary">LOGISTICS</span>
             </span>
@@ -39,13 +39,13 @@ export function Header() {
           </Link>
 
           {/* Desktop */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-7">
             {navItems.map((item) =>
               item.href.startsWith("/group") ? (
                 <Link
                   key={item.label}
                   to="/group-orders"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-xs font-medium tracking-wider text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {item.label}
                 </Link>
@@ -53,7 +53,7 @@ export function Header() {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-xs font-medium tracking-wider text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {item.label}
                 </a>
@@ -61,7 +61,7 @@ export function Header() {
             )}
             <a
               href="/#quote"
-              className="bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-2"
+              className="bg-primary text-primary-foreground px-5 py-2 rounded-md text-xs font-semibold tracking-wider hover:bg-primary/90 transition-colors flex items-center gap-2"
             >
               📋 QUOTE
             </a>
@@ -69,7 +69,7 @@ export function Header() {
 
           {/* Mobile toggle */}
           <button
-            className="md:hidden text-foreground"
+            className="lg:hidden text-foreground"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -78,13 +78,13 @@ export function Header() {
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <div className="md:hidden bg-background border-b border-border px-4 pb-4 space-y-3">
+          <div className="lg:hidden bg-background border-b border-border px-6 pb-4 space-y-3">
             {navItems.map((item) =>
               item.href.startsWith("/group") ? (
                 <Link
                   key={item.label}
                   to="/group-orders"
-                  className="block text-sm text-muted-foreground hover:text-foreground"
+                  className="block text-xs font-medium tracking-wider text-muted-foreground hover:text-foreground"
                   onClick={() => setMobileOpen(false)}
                 >
                   {item.label}
@@ -93,7 +93,7 @@ export function Header() {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="block text-sm text-muted-foreground hover:text-foreground"
+                  className="block text-xs font-medium tracking-wider text-muted-foreground hover:text-foreground"
                   onClick={() => setMobileOpen(false)}
                 >
                   {item.label}
@@ -102,7 +102,7 @@ export function Header() {
             )}
             <a
               href="/#quote"
-              className="block bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium text-center"
+              className="block bg-primary text-primary-foreground px-5 py-2 rounded-md text-xs font-semibold tracking-wider text-center"
               onClick={() => setMobileOpen(false)}
             >
               📋 QUOTE
