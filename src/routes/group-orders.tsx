@@ -117,9 +117,9 @@ function GroupOrdersPage() {
             <p className="text-muted-foreground mb-6">
               We're planning our next group order. Check back soon or contact us to suggest products!
             </p>
-            <a href="/#quote" className="bg-primary text-primary-foreground px-6 py-3 rounded-md font-semibold inline-flex items-center gap-2 hover:bg-primary/90">
-              Request a Quote <ArrowRight size={18} />
-            </a>
+            <Link to="/import" className="bg-primary text-primary-foreground px-6 py-3 rounded-md font-semibold inline-flex items-center gap-2 hover:bg-primary/90">
+              Use Our Import Service <ArrowRight size={18} />
+            </Link>
           </motion.div>
         ) : (
           <div className="space-y-6">
