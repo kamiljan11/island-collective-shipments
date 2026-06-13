@@ -13,7 +13,15 @@ export function Footer() {
           </p>
         </div>
         <p className="text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Mountain All Service ehf · KT: 690725-0450
+          © {new Date().getFullYear()} Mountain All Service ehf · KT: 690725-0450 · built by{" "}
+          <a
+            href="https://kamiljan.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-foreground transition-colors"
+          >
+            Kamil Jan
+          </a>
         </p>
       </div>
     </footer>
