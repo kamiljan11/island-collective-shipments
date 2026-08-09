@@ -9,32 +9,22 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SharedPalletRouteImport } from './routes/shared-pallet'
-import { Route as ImportRouteImport } from './routes/import'
-import { Route as GroupOrdersRouteImport } from './routes/group-orders'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as GroupOrdersRouteImport } from './routes/group-orders'
+import { Route as ImportRouteImport } from './routes/import'
+import { Route as SharedPalletRouteImport } from './routes/shared-pallet'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as GroupOrdersCampaignIdRouteImport } from './routes/group-orders.$campaignId'
-import { Route as AdminQuotesRouteImport } from './routes/admin.quotes'
-import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
-import { Route as AdminLoginRouteImport } from './routes/admin.login'
-import { Route as AdminIdeasRouteImport } from './routes/admin.ideas'
 import { Route as AdminCampaignsRouteImport } from './routes/admin.campaigns'
+import { Route as AdminIdeasRouteImport } from './routes/admin.ideas'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
+import { Route as AdminQuotesRouteImport } from './routes/admin.quotes'
+import { Route as GroupOrdersCampaignIdRouteImport } from './routes/group-orders.$campaignId'
 
-const SharedPalletRoute = SharedPalletRouteImport.update({
-  id: '/shared-pallet',
-  path: '/shared-pallet',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ImportRoute = ImportRouteImport.update({
-  id: '/import',
-  path: '/import',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GroupOrdersRoute = GroupOrdersRouteImport.update({
-  id: '/group-orders',
-  path: '/group-orders',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -42,9 +32,19 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const GroupOrdersRoute = GroupOrdersRouteImport.update({
+  id: '/group-orders',
+  path: '/group-orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImportRoute = ImportRouteImport.update({
+  id: '/import',
+  path: '/import',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SharedPalletRoute = SharedPalletRouteImport.update({
+  id: '/shared-pallet',
+  path: '/shared-pallet',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -52,24 +52,9 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
-const GroupOrdersCampaignIdRoute = GroupOrdersCampaignIdRouteImport.update({
-  id: '/$campaignId',
-  path: '/$campaignId',
-  getParentRoute: () => GroupOrdersRoute,
-} as any)
-const AdminQuotesRoute = AdminQuotesRouteImport.update({
-  id: '/quotes',
-  path: '/quotes',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminOrdersRoute = AdminOrdersRouteImport.update({
-  id: '/orders',
-  path: '/orders',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
+const AdminCampaignsRoute = AdminCampaignsRouteImport.update({
+  id: '/campaigns',
+  path: '/campaigns',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminIdeasRoute = AdminIdeasRouteImport.update({
@@ -77,10 +62,25 @@ const AdminIdeasRoute = AdminIdeasRouteImport.update({
   path: '/ideas',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminCampaignsRoute = AdminCampaignsRouteImport.update({
-  id: '/campaigns',
-  path: '/campaigns',
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => AdminRoute,
+} as any)
+const AdminOrdersRoute = AdminOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminQuotesRoute = AdminQuotesRouteImport.update({
+  id: '/quotes',
+  path: '/quotes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const GroupOrdersCampaignIdRoute = GroupOrdersCampaignIdRouteImport.update({
+  id: '/$campaignId',
+  path: '/$campaignId',
+  getParentRoute: () => GroupOrdersRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -179,25 +179,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/shared-pallet': {
-      id: '/shared-pallet'
-      path: '/shared-pallet'
-      fullPath: '/shared-pallet'
-      preLoaderRoute: typeof SharedPalletRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/import': {
-      id: '/import'
-      path: '/import'
-      fullPath: '/import'
-      preLoaderRoute: typeof ImportRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/group-orders': {
-      id: '/group-orders'
-      path: '/group-orders'
-      fullPath: '/group-orders'
-      preLoaderRoute: typeof GroupOrdersRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -207,11 +193,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/group-orders': {
+      id: '/group-orders'
+      path: '/group-orders'
+      fullPath: '/group-orders'
+      preLoaderRoute: typeof GroupOrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/import': {
+      id: '/import'
+      path: '/import'
+      fullPath: '/import'
+      preLoaderRoute: typeof ImportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shared-pallet': {
+      id: '/shared-pallet'
+      path: '/shared-pallet'
+      fullPath: '/shared-pallet'
+      preLoaderRoute: typeof SharedPalletRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -221,32 +221,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/group-orders/$campaignId': {
-      id: '/group-orders/$campaignId'
-      path: '/$campaignId'
-      fullPath: '/group-orders/$campaignId'
-      preLoaderRoute: typeof GroupOrdersCampaignIdRouteImport
-      parentRoute: typeof GroupOrdersRoute
-    }
-    '/admin/quotes': {
-      id: '/admin/quotes'
-      path: '/quotes'
-      fullPath: '/admin/quotes'
-      preLoaderRoute: typeof AdminQuotesRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/orders': {
-      id: '/admin/orders'
-      path: '/orders'
-      fullPath: '/admin/orders'
-      preLoaderRoute: typeof AdminOrdersRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/login': {
-      id: '/admin/login'
-      path: '/login'
-      fullPath: '/admin/login'
-      preLoaderRoute: typeof AdminLoginRouteImport
+    '/admin/campaigns': {
+      id: '/admin/campaigns'
+      path: '/campaigns'
+      fullPath: '/admin/campaigns'
+      preLoaderRoute: typeof AdminCampaignsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/ideas': {
@@ -256,12 +235,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIdeasRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/campaigns': {
-      id: '/admin/campaigns'
-      path: '/campaigns'
-      fullPath: '/admin/campaigns'
-      preLoaderRoute: typeof AdminCampaignsRouteImport
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/admin/orders': {
+      id: '/admin/orders'
+      path: '/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof AdminOrdersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/quotes': {
+      id: '/admin/quotes'
+      path: '/quotes'
+      fullPath: '/admin/quotes'
+      preLoaderRoute: typeof AdminQuotesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/group-orders/$campaignId': {
+      id: '/group-orders/$campaignId'
+      path: '/$campaignId'
+      fullPath: '/group-orders/$campaignId'
+      preLoaderRoute: typeof GroupOrdersCampaignIdRouteImport
+      parentRoute: typeof GroupOrdersRoute
     }
   }
 }

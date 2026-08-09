@@ -210,14 +210,14 @@ function AdminOrders() {
         data: {
           campaign_id: targetCampaignId,
           order_ids: Array.from(selectedOrders),
-          notification_type: notifyType as any,
+          notification_type: notifyType as "deposit_request" | "pickup_ready" | "status_update" | "custom",
           subject: notifySubject,
           message: notifyMessage,
         },
       });
       setSendResult({ sent: result.sent, failed: result.failed });
       fetchData();
-    } catch (err: any) {
+    } catch {
       setSendResult({ sent: 0, failed: selectedOrders.size });
     } finally {
       setSending(false);

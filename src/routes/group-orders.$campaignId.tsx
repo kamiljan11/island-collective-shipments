@@ -88,8 +88,8 @@ function CampaignDetailPage() {
         .eq("id", campaignId)
         .single();
       if (updated) setCampaign(updated);
-    } catch (err: any) {
-      setError(err.message || "Failed to submit. Please try again.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to submit. Please try again.");
     } finally {
       setSubmitting(false);
     }

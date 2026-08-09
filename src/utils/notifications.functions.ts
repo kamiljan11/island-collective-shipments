@@ -90,9 +90,13 @@ export const sendBulkNotification = createServerFn({ method: "POST" })
         }
 
         results.push({ email: order.email, success: true });
-      } catch (err: any) {
+      } catch (err) {
         console.error("Notification error for", order.email, err);
-        results.push({ email: order.email, success: false, error: err.message });
+        results.push({
+          email: order.email,
+          success: false,
+          error: err instanceof Error ? err.message : String(err),
+        });
       }
     }
 

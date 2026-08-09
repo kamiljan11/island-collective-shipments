@@ -68,8 +68,8 @@ export function CampaignDialog({
         .eq("id", campaign.id)
         .single();
       if (updated) onUpdate(updated);
-    } catch (err: any) {
-      setError(err.message || "Something went wrong. Please try again.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
     }

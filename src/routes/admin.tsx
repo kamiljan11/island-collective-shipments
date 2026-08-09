@@ -23,7 +23,7 @@ function AdminLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const isLoginRoute = location.pathname === "/admin/login";
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<import("@supabase/supabase-js").User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [checking, setChecking] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
