@@ -1,49 +1,51 @@
-# [NAZWA PROJEKTU]
+# MAS Logistics — Europe → Iceland, Done For You
 
-<!-- Jednozdaniowy opis: co to robi i dla kogo. UZUPELNIJ przy starcie projektu. -->
+**Status:** production · Part of the [MAS Group](https://masgroup.is) platform · Built by [Kamil Jan](https://kamiljan.com)
+
+A buying-and-shipping service for people and companies in Iceland who hit the same three
+walls: the European shop won't ship to Iceland, the customs paperwork is unclear, and a
+business needs a valid VAT invoice at the end of it. MAS Logistics buys the goods, ships
+them, and clears customs — the customer fills in no forms.
+
+## What it does
+
+- **Quote requests** for individual purchases, with admin review and pricing
+- **Group-order campaigns** — several customers share one container or pallet, so each pays a
+  fraction of the freight; campaigns have their own public pages and order flow
+- **Shared pallet** intake for smaller one-off shipments
+- **Idea board** where customers propose products worth importing in bulk
+- **Admin back office** — campaigns, quotes, orders and login
 
 ## Stack
-- Frontend: React 18 + TypeScript + Vite + Tailwind
-- Backend/API:
-- Baza:
-- Hosting/deploy:
 
-## Wymagania
-- Node 20+
-- npm
+React + TypeScript · Vite · TanStack Router · Tailwind CSS · Supabase (Postgres, Auth, RLS) ·
+hosted on Lovable. Schema history lives in `supabase/migrations/`.
 
-## Setup
+## Running locally
+
 ```bash
 npm install
-cp .env.example .env   # uzupelnij wartosci (sekrety: Infisical "MAS Group")
+npm run dev
 ```
 
-## Komendy
-| Komenda | Co robi |
-|---|---|
-| `npm run dev` | serwer deweloperski |
-| `npm run build` | build produkcyjny |
-| `npm run lint` | ESLint |
-| `npm run typecheck` | tsc --noEmit |
-| `npm test` | testy jednostkowe |
-| `npm run test:coverage` | testy + prog pokrycia |
-| `npx playwright test` | E2E smoke |
+Copy `.env.example` to `.env` and provide your own Supabase project URL and publishable key.
 
-## Zmienne srodowiskowe
-<!-- Tabela: NAZWA | wymagana? | opis. Zadnych wartosci sekretow w repo. -->
-
-## Struktura
-```
-src/            # kod aplikacji
-e2e/            # testy Playwright
-docs/adr/       # decyzje architektoniczne
-docs/RUNBOOK.md # operacje: deploy, rollback, awarie
+```bash
+npm run lint
+npm run build
+npx tsc -b        # note: -b, not --noEmit (project references)
 ```
 
-## Deploy i wersjonowanie
-- Flow: feature branch -> PR -> zielone CI + review -> merge do main -> deploy
-- Wersje: SemVer, tag `vX.Y.Z` tworzy GitHub Release (auto-notes)
-- Zmiany: `CHANGELOG.md` (Keep a Changelog) — aktualizuj sekcje [Unreleased] w kazdym PR
+## How security is handled
 
-## Wlasciciel
-MAS Group / Kamil Jan — mountainallservice@gmail.com
+- No secrets in the repo; `.env` holds only the Supabase publishable key, which is a
+  client-side value by design.
+- Row Level Security in Postgres is the authorisation boundary — the browser never holds a
+  service role key.
+- Every push runs build, lint, typecheck, tests, Semgrep and a Gitleaks secret scan; a
+  pre-commit hook blocks credential-shaped strings.
+- Customer data stays in the database. Fixtures in the repo are synthetic.
+
+## Licence
+
+Proprietary. Published for reference, not for reuse.
