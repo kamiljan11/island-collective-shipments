@@ -1,6 +1,6 @@
-# MAS Logistics — Europe to Iceland Shipping (prototype)
-
 **Status: prototype (2026-08) — not maintained**
+
+# MAS Logistics — Europe to Iceland Shipping (prototype)
 
 A prototype buy-and-ship service for individuals and businesses in Iceland: quote requests with
 admin review, pooled "group-order" campaigns with per-campaign public pages, a shared-pallet
